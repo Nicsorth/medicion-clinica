@@ -1,0 +1,1874 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evaluación Clínica — Dr. Nicolás Labbé</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Host+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1412;
+    --ink-soft: #6b5e59;
+    --ink-muted: #9c8f8a;
+    --paper: #ffffff;
+    --paper-warm: #fff8f5;
+    --accent: #9a3412;
+    --accent-light: #fdf0eb;
+    --accent-mid: #7c2d12;
+    --success: #2a7a5a;
+    --success-light: #e8f5f0;
+    --border: #e8e0db;
+    --border-focus: #9a3412;
+    --radius: 10px;
+    --shadow: 0 2px 12px rgba(26,20,18,0.07);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Host Grotesk', ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: linear-gradient(180deg, #ffffff 0%, #fff9f7 100%);
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* Header */
+  .header {
+    background: var(--ink);
+    padding: 28px 0 24px;
+    text-align: center;
+  }
+  .header-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: #fff;
+    letter-spacing: -0.3px;
+  }
+  .header-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 300;
+  }
+
+  /* Progress bar */
+  .progress-bar-wrap {
+    background: var(--paper-warm);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .progress-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .progress-track {
+    flex: 1;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .progress-label {
+    font-size: 12px;
+    color: var(--ink-muted);
+    min-width: 60px;
+    text-align: right;
+    font-weight: 500;
+  }
+
+  /* Layout */
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* Moment badge */
+  .moment-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent-light);
+    border: 1px solid rgba(154,52,18,0.2);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .moment-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  /* Intro block */
+  .intro-block {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow);
+  }
+  .intro-block h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: var(--ink);
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+  .intro-block p {
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 10px;
+  }
+  .instruments-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .instrument-pill {
+    background: var(--paper-warm);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+
+  /* Section card */
+  .section-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .section-header {
+    background: var(--ink);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-number {
+    width: 28px; height: 28px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    color: rgba(255,255,255,0.9);
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    color: #fff;
+    flex: 1;
+  }
+  .section-subtitle {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 2px;
+    font-weight: 300;
+  }
+  .section-time {
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    flex-shrink: 0;
+  }
+  .section-body {
+    padding: 24px;
+  }
+
+  /* Instrucciones de sección */
+  .section-instructions {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  /* Escala tipo Likert horizontal */
+  .likert-group {
+    margin-bottom: 24px;
+  }
+  .likert-question {
+    font-size: 14px;
+    color: var(--ink);
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+  .likert-question .q-num {
+    font-weight: 500;
+    color: var(--accent);
+    margin-right: 4px;
+  }
+  .likert-scale {
+    display: flex;
+    gap: 6px;
+  }
+  .likert-option {
+    flex: 1;
+    text-align: center;
+  }
+  .likert-option input[type="radio"] {
+    display: none;
+  }
+  .likert-option label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 8px 4px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--paper);
+    transition: all 0.15s;
+    font-size: 11px;
+    color: var(--ink-muted);
+    line-height: 1.3;
+  }
+  .likert-option label .val {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    transition: all 0.15s;
+  }
+  .likert-option input:checked + label {
+    background: var(--accent-light);
+    border-color: var(--accent);
+  }
+  .likert-option input:checked + label .val {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .likert-option label:hover {
+    background: var(--paper-warm);
+    border-color: var(--accent-mid);
+  }
+
+  /* Escala vertical (para escalas con texto largo) */
+  .radio-group-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .radio-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .radio-option:hover { background: var(--paper-warm); border-color: var(--accent-mid); }
+  .radio-option input { display: none; }
+  .radio-dot {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .radio-option.selected { background: var(--accent-light); border-color: var(--accent); }
+  .radio-option.selected .radio-dot { background: var(--accent); border-color: var(--accent); }
+  .radio-option.selected .radio-dot::after { content: ''; width: 6px; height: 6px; background: #fff; border-radius: 50%; }
+  .radio-label { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+  .radio-label strong { color: var(--ink); }
+
+  /* Separador entre ítems */
+  .item-divider {
+    height: 1px;
+    background: var(--paper-warm);
+    margin: 4px 0 20px;
+  }
+
+  /* Escala numérica WAI */
+  .wai-scale {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .wai-scale .likert-option label .val { width: 32px; height: 32px; font-size: 14px; }
+  .wai-anchors {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--ink-muted);
+    margin-bottom: 20px;
+    padding: 0 4px;
+  }
+
+  /* Submit area */
+  .submit-area {
+    margin-top: 40px;
+    text-align: center;
+  }
+  .btn-submit {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 16px 48px;
+    border-radius: 40px;
+    font-family: 'Host Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(154,52,18,0.28);
+    letter-spacing: 0.2px;
+  }
+  .btn-submit:hover { background: var(--accent-mid); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(124,45,18,0.32); }
+  .btn-submit:disabled { background: var(--ink-muted); box-shadow: none; cursor: not-allowed; transform: none; }
+  .submit-note {
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin-top: 12px;
+  }
+
+  /* Estado de envío */
+  .sending-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,20,18,0.72);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .sending-overlay.active { display: flex; }
+  .sending-spinner {
+    width: 48px; height: 48px;
+    border: 3px solid rgba(255,255,255,0.2);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .sending-text { color: #fff; font-size: 15px; }
+
+  /* Pantalla de éxito */
+  .success-screen {
+    display: none;
+    min-height: 60vh;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 24px;
+    gap: 16px;
+  }
+  .success-screen.active { display: flex; }
+  .success-icon {
+    width: 64px; height: 64px;
+    background: var(--success-light);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+  }
+  .success-screen h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--ink);
+  }
+  .success-screen p { color: var(--ink-soft); font-size: 14px; max-width: 400px; }
+
+  /* Error de validación */
+  .validation-error {
+    background: #fff0f0;
+    border: 1px solid #ffbbbb;
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: #c0392b;
+    margin-bottom: 20px;
+    display: none;
+  }
+  .validation-error.active { display: block; }
+
+  /* Responsive */
+  @media (max-width: 520px) {
+    .likert-scale { gap: 3px; }
+    .likert-option label { font-size: 9px; padding: 6px 2px; }
+    .likert-option label .val { width: 24px; height: 24px; font-size: 12px; }
+    .wai-scale { grid-template-columns: repeat(7, 1fr); gap: 3px; }
+    .section-body { padding: 16px; }
+    .intro-block { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Overlay de envío -->
+<div class="sending-overlay" id="sendingOverlay">
+  <div class="sending-spinner"></div>
+  <div class="sending-text">Enviando respuestas…</div>
+</div>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-logo">Dr. Nicolás Labbé · PersonalidadSana</div>
+  <div class="header-sub">Evaluación Clínica Psicológica</div>
+</div>
+
+<!-- Progress bar -->
+<div class="progress-bar-wrap" id="progressBar">
+  <div class="progress-inner">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel">0%</div>
+  </div>
+</div>
+
+<!-- Contenido principal -->
+<div class="container">
+
+  <!-- Pantalla de éxito (oculta hasta enviar) -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">✓</div>
+    <h2>¡Gracias por responder!</h2>
+    <p>Tus respuestas han sido registradas correctamente. El Dr. Labbé las revisará antes de tu próxima sesión.</p>
+    <p style="font-size:12px; color:var(--ink-muted); margin-top:8px;">Puedes cerrar esta ventana.</p>
+  </div>
+
+  <!-- Formulario (visible por defecto) -->
+  <div id="formWrapper">
+
+    <!-- Badge de momento -->
+    <div class="moment-badge" id="momentBadge">Cargando…</div>
+
+    <!-- Bloque de introducción -->
+    <div class="intro-block">
+      <h1 id="introTitle">Evaluación psicológica</h1>
+      <p>Este cuestionario forma parte de tu proceso terapéutico. Sus respuestas son <strong>confidenciales</strong> y serán utilizadas exclusivamente por el Dr. Labbé para orientar mejor tu tratamiento.</p>
+      <p>No hay respuestas correctas o incorrectas. Responde con calma y según cómo te has sentido <strong>durante las últimas dos semanas</strong>, salvo que se indique otra cosa.</p>
+      <div class="instruments-list" id="instrumentsList"></div>
+    </div>
+
+    <!-- Error de validación global -->
+    <div class="validation-error" id="validationError">
+      Por favor responde todas las preguntas antes de continuar. Las preguntas sin respuesta están marcadas en rojo.
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SECCIÓN 1: DSM-5 Cross-Cutting Level 1
+         Momentos: TP=0 (ingreso), TP=3 (cada 3 meses)
+    ══════════════════════════════════════════════════ -->
+    <div class="section-card" id="sec-dsm5" style="display:none">
+      <div class="section-header">
+        <div class="section-number" id="num-dsm5">1</div>
+        <div>
+          <div class="section-title">Evaluación de síntomas psicológicos</div>
+          <div class="section-subtitle">DSM-5 Self-Rated Level 1 Cross-Cutting Symptom Measure</div>
+        </div>
+        <div class="section-time">~4 min</div>
+      </div>
+      <div class="section-body">
+        <div class="section-instructions">
+          Durante las <strong>últimas 2 semanas</strong>, ¿cuánto te han molestado los siguientes problemas? Usa la escala: <strong>0 = Nunca · 1 = Raramente · 2 = A veces · 3 = A menudo · 4 = Siempre</strong>
+        </div>
+
+        <!-- Ítems DSM-5 Cross-Cutting (versión adultos, 23 ítems, dominios I–XIII) -->
+        <!-- Dominio I: Depresión -->
+        <div class="likert-group" id="group_dsm1">
+          <div class="likert-question"><span class="q-num">1.</span> Poco interés o placer en hacer las cosas.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="dsm_1" value="0" id="dsm_1_0"><label for="dsm_1_0"><div class="val">0</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_1" value="1" id="dsm_1_1"><label for="dsm_1_1"><div class="val">1</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_1" value="2" id="dsm_1_2"><label for="dsm_1_2"><div class="val">2</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_1" value="3" id="dsm_1_3"><label for="dsm_1_3"><div class="val">3</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_1" value="4" id="dsm_1_4"><label for="dsm_1_4"><div class="val">4</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_dsm2">
+          <div class="likert-question"><span class="q-num">2.</span> Sentirte triste, deprimido/a o sin esperanza.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="dsm_2" value="0" id="dsm_2_0"><label for="dsm_2_0"><div class="val">0</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_2" value="1" id="dsm_2_1"><label for="dsm_2_1"><div class="val">1</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_2" value="2" id="dsm_2_2"><label for="dsm_2_2"><div class="val">2</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_2" value="3" id="dsm_2_3"><label for="dsm_2_3"><div class="val">3</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_2" value="4" id="dsm_2_4"><label for="dsm_2_4"><div class="val">4</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <!-- Dominio II: Ira -->
+        <div class="likert-group" id="group_dsm3">
+          <div class="likert-question"><span class="q-num">3.</span> Sentirte irritable, molesto/a o enojado/a.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="dsm_3" value="0" id="dsm_3_0"><label for="dsm_3_0"><div class="val">0</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_3" value="1" id="dsm_3_1"><label for="dsm_3_1"><div class="val">1</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_3" value="2" id="dsm_3_2"><label for="dsm_3_2"><div class="val">2</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_3" value="3" id="dsm_3_3"><label for="dsm_3_3"><div class="val">3</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_3" value="4" id="dsm_3_4"><label for="dsm_3_4"><div class="val">4</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <!-- Dominio III: Manía -->
+        <div class="likert-group" id="group_dsm4">
+          <div class="likert-question"><span class="q-num">4.</span> Dormir menos de lo habitual pero aun así tener mucha energía.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="dsm_4" value="0" id="dsm_4_0"><label for="dsm_4_0"><div class="val">0</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_4" value="1" id="dsm_4_1"><label for="dsm_4_1"><div class="val">1</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_4" value="2" id="dsm_4_2"><label for="dsm_4_2"><div class="val">2</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_4" value="3" id="dsm_4_3"><label for="dsm_4_3"><div class="val">3</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_4" value="4" id="dsm_4_4"><label for="dsm_4_4"><div class="val">4</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_dsm5">
+          <div class="likert-question"><span class="q-num">5.</span> Comenzar muchas cosas diferentes a la vez, tener más ideas de las que puedes manejar.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="dsm_5" value="0" id="dsm_5_0"><label for="dsm_5_0"><div class="val">0</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_5" value="1" id="dsm_5_1"><label for="dsm_5_1"><div class="val">1</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_5" value="2" id="dsm_5_2"><label for="dsm_5_2"><div class="val">2</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_5" value="3" id="dsm_5_3"><label for="dsm_5_3"><div class="val">3</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_5" value="4" id="dsm_5_4"><label for="dsm_5_4"><div class="val">4</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <!-- Dominio IV: Ansiedad -->
+        <div class="likert-group" id="group_dsm6">
+          <div class="likert-question"><span class="q-num">6.</span> Sentirte nervioso/a, ansioso/a, asustado/a, preocupado/a o con pánico.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="dsm_6" value="0" id="dsm_6_0"><label for="dsm_6_0"><div class="val">0</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_6" value="1" id="dsm_6_1"><label for="dsm_6_1"><div class="val">1</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_6" value="2" id="dsm_6_2"><label for="dsm_6_2"><div class="val">2</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_6" value="3" id="dsm_6_3"><label for="dsm_6_3"><div class="val">3</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_6" value="4" id="dsm_6_4"><label for="dsm_6_4"><div class="val">4</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_dsm7">
+          <div class="likert-question"><span class="q-num">7.</span> Tener pensamientos no deseados, presionantes o imágenes que no podías dejar de pensar.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="dsm_7" value="0" id="dsm_7_0"><label for="dsm_7_0"><div class="val">0</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_7" value="1" id="dsm_7_1"><label for="dsm_7_1"><div class="val">1</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_7" value="2" id="dsm_7_2"><label for="dsm_7_2"><div class="val">2</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_7" value="3" id="dsm_7_3"><label for="dsm_7_3"><div class="val">3</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_7" value="4" id="dsm_7_4"><label for="dsm_7_4"><div class="val">4</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <!-- Dominio V: Síntomas somáticos -->
+        <div class="likert-group" id="group_dsm8">
+          <div class="likert-question"><span class="q-num">8.</span> Sentirte obligado/a a revisar cosas una y otra vez, ordenar objetos o repetir actos para calmarte.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="dsm_8" value="0" id="dsm_8_0"><label for="dsm_8_0"><div class="val">0</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_8" value="1" id="dsm_8_1"><label for="dsm_8_1"><div class="val">1</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_8" value="2" id="dsm_8_2"><label for="dsm_8_2"><div class="val">2</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_8" value="3" id="dsm_8_3"><label for="dsm_8_3"><div class="val">3</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_8" value="4" id="dsm_8_4"><label for="dsm_8_4"><div class="val">4</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <!-- Dominio VI: Disociación -->
+        <div class="likert-group" id="group_dsm9">
+          <div class="likert-question"><span class="q-num">9.</span> Sentirte como si fueras dos personas o sintiéndote separado/a de tu mente, tu cuerpo o de tu entorno.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="dsm_9" value="0" id="dsm_9_0"><label for="dsm_9_0"><div class="val">0</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_9" value="1" id="dsm_9_1"><label for="dsm_9_1"><div class="val">1</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_9" value="2" id="dsm_9_2"><label for="dsm_9_2"><div class="val">2</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_9" value="3" id="dsm_9_3"><label for="dsm_9_3"><div class="val">3</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_9" value="4" id="dsm_9_4"><label for="dsm_9_4"><div class="val">4</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <!-- Dominio VII: Funcionalidad -->
+        <div class="likert-group" id="group_dsm10">
+          <div class="likert-question"><span class="q-num">10.</span> No recordar eventos importantes o tener recuerdos de eventos traumáticos.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="dsm_10" value="0" id="dsm_10_0"><label for="dsm_10_0"><div class="val">0</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_10" value="1" id="dsm_10_1"><label for="dsm_10_1"><div class="val">1</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_10" value="2" id="dsm_10_2"><label for="dsm_10_2"><div class="val">2</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_10" value="3" id="dsm_10_3"><label for="dsm_10_3"><div class="val">3</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_10" value="4" id="dsm_10_4"><label for="dsm_10_4"><div class="val">4</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <!-- Dominio VIII: Síntomas somáticos -->
+        <div class="likert-group" id="group_dsm11">
+          <div class="likert-question"><span class="q-num">11.</span> Sensaciones físicas inexplicables (por ej., dolores, ardor, entumecimiento, sensación de peso).</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="dsm_11" value="0" id="dsm_11_0"><label for="dsm_11_0"><div class="val">0</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_11" value="1" id="dsm_11_1"><label for="dsm_11_1"><div class="val">1</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_11" value="2" id="dsm_11_2"><label for="dsm_11_2"><div class="val">2</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_11" value="3" id="dsm_11_3"><label for="dsm_11_3"><div class="val">3</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_11" value="4" id="dsm_11_4"><label for="dsm_11_4"><div class="val">4</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <!-- Dominio IX: Uso de sustancias -->
+        <div class="likert-group" id="group_dsm12">
+          <div class="likert-question"><span class="q-num">12.</span> Beber al menos 4 copas de alcohol al día, o que otros se hayan preocupado por tu consumo de alcohol.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="dsm_12" value="0" id="dsm_12_0"><label for="dsm_12_0"><div class="val">0</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_12" value="1" id="dsm_12_1"><label for="dsm_12_1"><div class="val">1</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_12" value="2" id="dsm_12_2"><label for="dsm_12_2"><div class="val">2</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_12" value="3" id="dsm_12_3"><label for="dsm_12_3"><div class="val">3</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_12" value="4" id="dsm_12_4"><label for="dsm_12_4"><div class="val">4</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_dsm13">
+          <div class="likert-question"><span class="q-num">13.</span> Fumar, consumir drogas u otros medicamentos sin prescripción médica.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="dsm_13" value="0" id="dsm_13_0"><label for="dsm_13_0"><div class="val">0</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_13" value="1" id="dsm_13_1"><label for="dsm_13_1"><div class="val">1</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_13" value="2" id="dsm_13_2"><label for="dsm_13_2"><div class="val">2</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_13" value="3" id="dsm_13_3"><label for="dsm_13_3"><div class="val">3</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_13" value="4" id="dsm_13_4"><label for="dsm_13_4"><div class="val">4</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <!-- Dominio X: Funciones psíquicas -->
+        <div class="likert-group" id="group_dsm14">
+          <div class="likert-question"><span class="q-num">14.</span> Problemas con el sueño (dificultad para dormir, despertarse muy temprano o dormir demasiado).</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="dsm_14" value="0" id="dsm_14_0"><label for="dsm_14_0"><div class="val">0</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_14" value="1" id="dsm_14_1"><label for="dsm_14_1"><div class="val">1</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_14" value="2" id="dsm_14_2"><label for="dsm_14_2"><div class="val">2</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_14" value="3" id="dsm_14_3"><label for="dsm_14_3"><div class="val">3</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_14" value="4" id="dsm_14_4"><label for="dsm_14_4"><div class="val">4</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <!-- Dominio XI: Memoria/cognición -->
+        <div class="likert-group" id="group_dsm15">
+          <div class="likert-question"><span class="q-num">15.</span> Problemas con tu memoria o tu concentración.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="dsm_15" value="0" id="dsm_15_0"><label for="dsm_15_0"><div class="val">0</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_15" value="1" id="dsm_15_1"><label for="dsm_15_1"><div class="val">1</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_15" value="2" id="dsm_15_2"><label for="dsm_15_2"><div class="val">2</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_15" value="3" id="dsm_15_3"><label for="dsm_15_3"><div class="val">3</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_15" value="4" id="dsm_15_4"><label for="dsm_15_4"><div class="val">4</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <!-- Dominio XII: Pensamiento psicótico -->
+        <div class="likert-group" id="group_dsm16">
+          <div class="likert-question"><span class="q-num">16.</span> Escuchar cosas que otros no pueden oír, ver cosas que otros no pueden ver o creer que otros quieren hacerte daño.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="dsm_16" value="0" id="dsm_16_0"><label for="dsm_16_0"><div class="val">0</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_16" value="1" id="dsm_16_1"><label for="dsm_16_1"><div class="val">1</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_16" value="2" id="dsm_16_2"><label for="dsm_16_2"><div class="val">2</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_16" value="3" id="dsm_16_3"><label for="dsm_16_3"><div class="val">3</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_16" value="4" id="dsm_16_4"><label for="dsm_16_4"><div class="val">4</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <!-- Dominio XIII: Funciones del yo -->
+        <div class="likert-group" id="group_dsm17">
+          <div class="likert-question"><span class="q-num">17.</span> Pensamientos de hacerte daño o de quitarte la vida.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="dsm_17" value="0" id="dsm_17_0"><label for="dsm_17_0"><div class="val">0</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_17" value="1" id="dsm_17_1"><label for="dsm_17_1"><div class="val">1</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_17" value="2" id="dsm_17_2"><label for="dsm_17_2"><div class="val">2</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_17" value="3" id="dsm_17_3"><label for="dsm_17_3"><div class="val">3</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="dsm_17" value="4" id="dsm_17_4"><label for="dsm_17_4"><div class="val">4</div>Siempre</label></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SECCIÓN 2: PHQ-9
+         Momentos: TP=0, TP=3
+    ══════════════════════════════════════════════════ -->
+    <div class="section-card" id="sec-phq9" style="display:none">
+      <div class="section-header">
+        <div class="section-number" id="num-phq9">2</div>
+        <div>
+          <div class="section-title">Bienestar emocional</div>
+          <div class="section-subtitle">PHQ-9 · Patient Health Questionnaire</div>
+        </div>
+        <div class="section-time">~2 min</div>
+      </div>
+      <div class="section-body">
+        <div class="section-instructions">
+          Durante las <strong>últimas 2 semanas</strong>, ¿con qué frecuencia te han molestado los siguientes problemas? <strong>0 = Ningún día · 1 = Varios días · 2 = Más de la mitad de los días · 3 = Casi todos los días</strong>
+        </div>
+
+        <div class="likert-group" id="group_phq1">
+          <div class="likert-question"><span class="q-num">1.</span> Poco interés o placer en hacer las cosas.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="phq_1" value="0" id="phq_1_0"><label for="phq_1_0"><div class="val">0</div>Ningún día</label></div>
+            <div class="likert-option"><input type="radio" name="phq_1" value="1" id="phq_1_1"><label for="phq_1_1"><div class="val">1</div>Varios días</label></div>
+            <div class="likert-option"><input type="radio" name="phq_1" value="2" id="phq_1_2"><label for="phq_1_2"><div class="val">2</div>Más de la mitad</label></div>
+            <div class="likert-option"><input type="radio" name="phq_1" value="3" id="phq_1_3"><label for="phq_1_3"><div class="val">3</div>Casi todos los días</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_phq2">
+          <div class="likert-question"><span class="q-num">2.</span> Sentirse triste, deprimido/a o sin esperanza.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="phq_2" value="0" id="phq_2_0"><label for="phq_2_0"><div class="val">0</div>Ningún día</label></div>
+            <div class="likert-option"><input type="radio" name="phq_2" value="1" id="phq_2_1"><label for="phq_2_1"><div class="val">1</div>Varios días</label></div>
+            <div class="likert-option"><input type="radio" name="phq_2" value="2" id="phq_2_2"><label for="phq_2_2"><div class="val">2</div>Más de la mitad</label></div>
+            <div class="likert-option"><input type="radio" name="phq_2" value="3" id="phq_2_3"><label for="phq_2_3"><div class="val">3</div>Casi todos los días</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_phq3">
+          <div class="likert-question"><span class="q-num">3.</span> Problemas para dormir o mantenerse dormido/a, o dormir demasiado.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="phq_3" value="0" id="phq_3_0"><label for="phq_3_0"><div class="val">0</div>Ningún día</label></div>
+            <div class="likert-option"><input type="radio" name="phq_3" value="1" id="phq_3_1"><label for="phq_3_1"><div class="val">1</div>Varios días</label></div>
+            <div class="likert-option"><input type="radio" name="phq_3" value="2" id="phq_3_2"><label for="phq_3_2"><div class="val">2</div>Más de la mitad</label></div>
+            <div class="likert-option"><input type="radio" name="phq_3" value="3" id="phq_3_3"><label for="phq_3_3"><div class="val">3</div>Casi todos los días</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_phq4">
+          <div class="likert-question"><span class="q-num">4.</span> Sentirse cansado/a o tener poca energía.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="phq_4" value="0" id="phq_4_0"><label for="phq_4_0"><div class="val">0</div>Ningún día</label></div>
+            <div class="likert-option"><input type="radio" name="phq_4" value="1" id="phq_4_1"><label for="phq_4_1"><div class="val">1</div>Varios días</label></div>
+            <div class="likert-option"><input type="radio" name="phq_4" value="2" id="phq_4_2"><label for="phq_4_2"><div class="val">2</div>Más de la mitad</label></div>
+            <div class="likert-option"><input type="radio" name="phq_4" value="3" id="phq_4_3"><label for="phq_4_3"><div class="val">3</div>Casi todos los días</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_phq5">
+          <div class="likert-question"><span class="q-num">5.</span> Tener poco apetito o comer en exceso.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="phq_5" value="0" id="phq_5_0"><label for="phq_5_0"><div class="val">0</div>Ningún día</label></div>
+            <div class="likert-option"><input type="radio" name="phq_5" value="1" id="phq_5_1"><label for="phq_5_1"><div class="val">1</div>Varios días</label></div>
+            <div class="likert-option"><input type="radio" name="phq_5" value="2" id="phq_5_2"><label for="phq_5_2"><div class="val">2</div>Más de la mitad</label></div>
+            <div class="likert-option"><input type="radio" name="phq_5" value="3" id="phq_5_3"><label for="phq_5_3"><div class="val">3</div>Casi todos los días</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_phq6">
+          <div class="likert-question"><span class="q-num">6.</span> Sentirse mal consigo mismo/a, o que es un fracaso o que ha fallado a sí mismo/a o a su familia.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="phq_6" value="0" id="phq_6_0"><label for="phq_6_0"><div class="val">0</div>Ningún día</label></div>
+            <div class="likert-option"><input type="radio" name="phq_6" value="1" id="phq_6_1"><label for="phq_6_1"><div class="val">1</div>Varios días</label></div>
+            <div class="likert-option"><input type="radio" name="phq_6" value="2" id="phq_6_2"><label for="phq_6_2"><div class="val">2</div>Más de la mitad</label></div>
+            <div class="likert-option"><input type="radio" name="phq_6" value="3" id="phq_6_3"><label for="phq_6_3"><div class="val">3</div>Casi todos los días</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_phq7">
+          <div class="likert-question"><span class="q-num">7.</span> Tener dificultades para concentrarse en ciertas actividades, tales como leer el periódico o ver televisión.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="phq_7" value="0" id="phq_7_0"><label for="phq_7_0"><div class="val">0</div>Ningún día</label></div>
+            <div class="likert-option"><input type="radio" name="phq_7" value="1" id="phq_7_1"><label for="phq_7_1"><div class="val">1</div>Varios días</label></div>
+            <div class="likert-option"><input type="radio" name="phq_7" value="2" id="phq_7_2"><label for="phq_7_2"><div class="val">2</div>Más de la mitad</label></div>
+            <div class="likert-option"><input type="radio" name="phq_7" value="3" id="phq_7_3"><label for="phq_7_3"><div class="val">3</div>Casi todos los días</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_phq8">
+          <div class="likert-question"><span class="q-num">8.</span> Moverse o hablar tan lentamente que otras personas podrían notarlo. O lo contrario: estar tan agitado/a que ha estado moviéndose mucho más de lo normal.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="phq_8" value="0" id="phq_8_0"><label for="phq_8_0"><div class="val">0</div>Ningún día</label></div>
+            <div class="likert-option"><input type="radio" name="phq_8" value="1" id="phq_8_1"><label for="phq_8_1"><div class="val">1</div>Varios días</label></div>
+            <div class="likert-option"><input type="radio" name="phq_8" value="2" id="phq_8_2"><label for="phq_8_2"><div class="val">2</div>Más de la mitad</label></div>
+            <div class="likert-option"><input type="radio" name="phq_8" value="3" id="phq_8_3"><label for="phq_8_3"><div class="val">3</div>Casi todos los días</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_phq9">
+          <div class="likert-question"><span class="q-num">9.</span> Pensamientos de que estaría mejor muerto/a, o de hacerse daño de alguna manera.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="phq_9" value="0" id="phq_9_0"><label for="phq_9_0"><div class="val">0</div>Ningún día</label></div>
+            <div class="likert-option"><input type="radio" name="phq_9" value="1" id="phq_9_1"><label for="phq_9_1"><div class="val">1</div>Varios días</label></div>
+            <div class="likert-option"><input type="radio" name="phq_9" value="2" id="phq_9_2"><label for="phq_9_2"><div class="val">2</div>Más de la mitad</label></div>
+            <div class="likert-option"><input type="radio" name="phq_9" value="3" id="phq_9_3"><label for="phq_9_3"><div class="val">3</div>Casi todos los días</label></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SECCIÓN 3: LPFS-BF
+         Momentos: TP=0, TP=3
+    ══════════════════════════════════════════════════ -->
+    <div class="section-card" id="sec-lpfs" style="display:none">
+      <div class="section-header">
+        <div class="section-number" id="num-lpfs">3</div>
+        <div>
+          <div class="section-title">Funcionamiento de la personalidad</div>
+          <div class="section-subtitle">LPFS-BF · Level of Personality Functioning Scale</div>
+        </div>
+        <div class="section-time">~3 min</div>
+      </div>
+      <div class="section-body">
+        <div class="section-instructions">
+          Indica cuánto acuerdo tienes con cada afirmación. <strong>1 = Totalmente en desacuerdo · 2 = En desacuerdo · 3 = Ni de acuerdo ni en desacuerdo · 4 = De acuerdo · 5 = Totalmente de acuerdo</strong>
+        </div>
+
+        <!-- Dominio Identidad -->
+        <div class="likert-group" id="group_lpfs1">
+          <div class="likert-question"><span class="q-num">1.</span> Tengo una idea clara y estable de quién soy.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="lpfs_1" value="1" id="lpfs_1_1"><label for="lpfs_1_1"><div class="val">1</div>Tot. en desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_1" value="2" id="lpfs_1_2"><label for="lpfs_1_2"><div class="val">2</div>En desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_1" value="3" id="lpfs_1_3"><label for="lpfs_1_3"><div class="val">3</div>Neutral</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_1" value="4" id="lpfs_1_4"><label for="lpfs_1_4"><div class="val">4</div>De acuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_1" value="5" id="lpfs_1_5"><label for="lpfs_1_5"><div class="val">5</div>Tot. de acuerdo</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_lpfs2">
+          <div class="likert-question"><span class="q-num">2.</span> Mis valores y creencias guían mi comportamiento de manera consistente.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="lpfs_2" value="1" id="lpfs_2_1"><label for="lpfs_2_1"><div class="val">1</div>Tot. en desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_2" value="2" id="lpfs_2_2"><label for="lpfs_2_2"><div class="val">2</div>En desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_2" value="3" id="lpfs_2_3"><label for="lpfs_2_3"><div class="val">3</div>Neutral</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_2" value="4" id="lpfs_2_4"><label for="lpfs_2_4"><div class="val">4</div>De acuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_2" value="5" id="lpfs_2_5"><label for="lpfs_2_5"><div class="val">5</div>Tot. de acuerdo</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_lpfs3">
+          <div class="likert-question"><span class="q-num">3.</span> Mi sentido de quién soy se mantiene relativamente estable, ya sea que esté solo/a o con otros.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="lpfs_3" value="1" id="lpfs_3_1"><label for="lpfs_3_1"><div class="val">1</div>Tot. en desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_3" value="2" id="lpfs_3_2"><label for="lpfs_3_2"><div class="val">2</div>En desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_3" value="3" id="lpfs_3_3"><label for="lpfs_3_3"><div class="val">3</div>Neutral</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_3" value="4" id="lpfs_3_4"><label for="lpfs_3_4"><div class="val">4</div>De acuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_3" value="5" id="lpfs_3_5"><label for="lpfs_3_5"><div class="val">5</div>Tot. de acuerdo</label></div>
+          </div>
+        </div>
+
+        <!-- Dominio Autodirección -->
+        <div class="likert-group" id="group_lpfs4">
+          <div class="likert-question"><span class="q-num">4.</span> Tengo metas significativas a largo plazo hacia las cuales trabajo.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="lpfs_4" value="1" id="lpfs_4_1"><label for="lpfs_4_1"><div class="val">1</div>Tot. en desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_4" value="2" id="lpfs_4_2"><label for="lpfs_4_2"><div class="val">2</div>En desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_4" value="3" id="lpfs_4_3"><label for="lpfs_4_3"><div class="val">3</div>Neutral</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_4" value="4" id="lpfs_4_4"><label for="lpfs_4_4"><div class="val">4</div>De acuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_4" value="5" id="lpfs_4_5"><label for="lpfs_4_5"><div class="val">5</div>Tot. de acuerdo</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_lpfs5">
+          <div class="likert-question"><span class="q-num">5.</span> Soy capaz de regular mis emociones y mi comportamiento de manera efectiva.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="lpfs_5" value="1" id="lpfs_5_1"><label for="lpfs_5_1"><div class="val">1</div>Tot. en desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_5" value="2" id="lpfs_5_2"><label for="lpfs_5_2"><div class="val">2</div>En desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_5" value="3" id="lpfs_5_3"><label for="lpfs_5_3"><div class="val">3</div>Neutral</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_5" value="4" id="lpfs_5_4"><label for="lpfs_5_4"><div class="val">4</div>De acuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_5" value="5" id="lpfs_5_5"><label for="lpfs_5_5"><div class="val">5</div>Tot. de acuerdo</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_lpfs6">
+          <div class="likert-question"><span class="q-num">6.</span> Puedo funcionar bien en situaciones cotidianas (trabajo, escuela, hogar).</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="lpfs_6" value="1" id="lpfs_6_1"><label for="lpfs_6_1"><div class="val">1</div>Tot. en desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_6" value="2" id="lpfs_6_2"><label for="lpfs_6_2"><div class="val">2</div>En desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_6" value="3" id="lpfs_6_3"><label for="lpfs_6_3"><div class="val">3</div>Neutral</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_6" value="4" id="lpfs_6_4"><label for="lpfs_6_4"><div class="val">4</div>De acuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_6" value="5" id="lpfs_6_5"><label for="lpfs_6_5"><div class="val">5</div>Tot. de acuerdo</label></div>
+          </div>
+        </div>
+
+        <!-- Dominio Empatía -->
+        <div class="likert-group" id="group_lpfs7">
+          <div class="likert-question"><span class="q-num">7.</span> Puedo entender cómo otros se sienten desde su punto de vista.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="lpfs_7" value="1" id="lpfs_7_1"><label for="lpfs_7_1"><div class="val">1</div>Tot. en desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_7" value="2" id="lpfs_7_2"><label for="lpfs_7_2"><div class="val">2</div>En desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_7" value="3" id="lpfs_7_3"><label for="lpfs_7_3"><div class="val">3</div>Neutral</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_7" value="4" id="lpfs_7_4"><label for="lpfs_7_4"><div class="val">4</div>De acuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_7" value="5" id="lpfs_7_5"><label for="lpfs_7_5"><div class="val">5</div>Tot. de acuerdo</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_lpfs8">
+          <div class="likert-question"><span class="q-num">8.</span> Mis respuestas emocionales son apropiadas para la situación.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="lpfs_8" value="1" id="lpfs_8_1"><label for="lpfs_8_1"><div class="val">1</div>Tot. en desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_8" value="2" id="lpfs_8_2"><label for="lpfs_8_2"><div class="val">2</div>En desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_8" value="3" id="lpfs_8_3"><label for="lpfs_8_3"><div class="val">3</div>Neutral</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_8" value="4" id="lpfs_8_4"><label for="lpfs_8_4"><div class="val">4</div>De acuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_8" value="5" id="lpfs_8_5"><label for="lpfs_8_5"><div class="val">5</div>Tot. de acuerdo</label></div>
+          </div>
+        </div>
+
+        <!-- Dominio Intimidad -->
+        <div class="likert-group" id="group_lpfs9">
+          <div class="likert-question"><span class="q-num">9.</span> Tengo relaciones cercanas y significativas en mi vida.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="lpfs_9" value="1" id="lpfs_9_1"><label for="lpfs_9_1"><div class="val">1</div>Tot. en desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_9" value="2" id="lpfs_9_2"><label for="lpfs_9_2"><div class="val">2</div>En desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_9" value="3" id="lpfs_9_3"><label for="lpfs_9_3"><div class="val">3</div>Neutral</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_9" value="4" id="lpfs_9_4"><label for="lpfs_9_4"><div class="val">4</div>De acuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_9" value="5" id="lpfs_9_5"><label for="lpfs_9_5"><div class="val">5</div>Tot. de acuerdo</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_lpfs10">
+          <div class="likert-question"><span class="q-num">10.</span> Soy capaz de mantener relaciones duraderas y mutuamente satisfactorias.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="lpfs_10" value="1" id="lpfs_10_1"><label for="lpfs_10_1"><div class="val">1</div>Tot. en desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_10" value="2" id="lpfs_10_2"><label for="lpfs_10_2"><div class="val">2</div>En desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_10" value="3" id="lpfs_10_3"><label for="lpfs_10_3"><div class="val">3</div>Neutral</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_10" value="4" id="lpfs_10_4"><label for="lpfs_10_4"><div class="val">4</div>De acuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_10" value="5" id="lpfs_10_5"><label for="lpfs_10_5"><div class="val">5</div>Tot. de acuerdo</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_lpfs11">
+          <div class="likert-question"><span class="q-num">11.</span> Deseo y disfruto de la intimidad emocional con otros.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="lpfs_11" value="1" id="lpfs_11_1"><label for="lpfs_11_1"><div class="val">1</div>Tot. en desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_11" value="2" id="lpfs_11_2"><label for="lpfs_11_2"><div class="val">2</div>En desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_11" value="3" id="lpfs_11_3"><label for="lpfs_11_3"><div class="val">3</div>Neutral</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_11" value="4" id="lpfs_11_4"><label for="lpfs_11_4"><div class="val">4</div>De acuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_11" value="5" id="lpfs_11_5"><label for="lpfs_11_5"><div class="val">5</div>Tot. de acuerdo</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_lpfs12">
+          <div class="likert-question"><span class="q-num">12.</span> Me siento cómodo/a siendo vulnerables con las personas de confianza.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="lpfs_12" value="1" id="lpfs_12_1"><label for="lpfs_12_1"><div class="val">1</div>Tot. en desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_12" value="2" id="lpfs_12_2"><label for="lpfs_12_2"><div class="val">2</div>En desacuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_12" value="3" id="lpfs_12_3"><label for="lpfs_12_3"><div class="val">3</div>Neutral</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_12" value="4" id="lpfs_12_4"><label for="lpfs_12_4"><div class="val">4</div>De acuerdo</label></div>
+            <div class="likert-option"><input type="radio" name="lpfs_12" value="5" id="lpfs_12_5"><label for="lpfs_12_5"><div class="val">5</div>Tot. de acuerdo</label></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SECCIÓN 4: PID-5 (versión breve 25 ítems)
+         Momentos: TP=0, TP=3
+    ══════════════════════════════════════════════════ -->
+    <div class="section-card" id="sec-pid5" style="display:none">
+      <div class="section-header">
+        <div class="section-number" id="num-pid5">4</div>
+        <div>
+          <div class="section-title">Rasgos de personalidad</div>
+          <div class="section-subtitle">PID-5 BF · Personality Inventory for DSM-5 (versión breve)</div>
+        </div>
+        <div class="section-time">~4 min</div>
+      </div>
+      <div class="section-body">
+        <div class="section-instructions">
+          Las siguientes afirmaciones describen diferentes maneras en que las personas pueden pensar, sentir o comportarse. Indica cuán bien te describe cada afirmación. <strong>0 = Muy falso o a menudo falso · 1 = A veces falso o algo falso · 2 = A veces verdadero o algo verdadero · 3 = Muy verdadero o a menudo verdadero</strong>
+        </div>
+
+        <!-- Afecto negativo -->
+        <div class="likert-group" id="group_pid1">
+          <div class="likert-question"><span class="q-num">1.</span> Las emociones frecuentemente se apoderan de mí y me sacan de control.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_1" value="0" id="pid_1_0"><label for="pid_1_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_1" value="1" id="pid_1_1"><label for="pid_1_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_1" value="2" id="pid_1_2"><label for="pid_1_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_1" value="3" id="pid_1_3"><label for="pid_1_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_pid2">
+          <div class="likert-question"><span class="q-num">2.</span> Me preocupo mucho por muchas cosas.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_2" value="0" id="pid_2_0"><label for="pid_2_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_2" value="1" id="pid_2_1"><label for="pid_2_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_2" value="2" id="pid_2_2"><label for="pid_2_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_2" value="3" id="pid_2_3"><label for="pid_2_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_pid3">
+          <div class="likert-question"><span class="q-num">3.</span> Me siento mal sobre mí mismo/a cuando cometo errores.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_3" value="0" id="pid_3_0"><label for="pid_3_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_3" value="1" id="pid_3_1"><label for="pid_3_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_3" value="2" id="pid_3_2"><label for="pid_3_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_3" value="3" id="pid_3_3"><label for="pid_3_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_pid4">
+          <div class="likert-question"><span class="q-num">4.</span> Me siento solo/a con mucha frecuencia.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_4" value="0" id="pid_4_0"><label for="pid_4_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_4" value="1" id="pid_4_1"><label for="pid_4_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_4" value="2" id="pid_4_2"><label for="pid_4_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_4" value="3" id="pid_4_3"><label for="pid_4_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_pid5">
+          <div class="likert-question"><span class="q-num">5.</span> Mis estados de ánimo cambian con mucha frecuencia.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_5" value="0" id="pid_5_0"><label for="pid_5_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_5" value="1" id="pid_5_1"><label for="pid_5_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_5" value="2" id="pid_5_2"><label for="pid_5_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_5" value="3" id="pid_5_3"><label for="pid_5_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <!-- Distanciamiento -->
+        <div class="likert-group" id="group_pid6">
+          <div class="likert-question"><span class="q-num">6.</span> Rara vez me siento emocionado/a o entusiasmado/a con nada.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_6" value="0" id="pid_6_0"><label for="pid_6_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_6" value="1" id="pid_6_1"><label for="pid_6_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_6" value="2" id="pid_6_2"><label for="pid_6_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_6" value="3" id="pid_6_3"><label for="pid_6_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_pid7">
+          <div class="likert-question"><span class="q-num">7.</span> No me gusta estar cerca de otras personas.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_7" value="0" id="pid_7_0"><label for="pid_7_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_7" value="1" id="pid_7_1"><label for="pid_7_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_7" value="2" id="pid_7_2"><label for="pid_7_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_7" value="3" id="pid_7_3"><label for="pid_7_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_pid8">
+          <div class="likert-question"><span class="q-num">8.</span> No tengo mucho que ofrecer al mundo.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_8" value="0" id="pid_8_0"><label for="pid_8_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_8" value="1" id="pid_8_1"><label for="pid_8_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_8" value="2" id="pid_8_2"><label for="pid_8_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_8" value="3" id="pid_8_3"><label for="pid_8_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_pid9">
+          <div class="likert-question"><span class="q-num">9.</span> Me siento desconectado/a del mundo y de las personas que me rodean.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_9" value="0" id="pid_9_0"><label for="pid_9_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_9" value="1" id="pid_9_1"><label for="pid_9_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_9" value="2" id="pid_9_2"><label for="pid_9_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_9" value="3" id="pid_9_3"><label for="pid_9_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_pid10">
+          <div class="likert-question"><span class="q-num">10.</span> Prefiero no revelarme a los demás.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_10" value="0" id="pid_10_0"><label for="pid_10_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_10" value="1" id="pid_10_1"><label for="pid_10_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_10" value="2" id="pid_10_2"><label for="pid_10_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_10" value="3" id="pid_10_3"><label for="pid_10_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <!-- Antagonismo -->
+        <div class="likert-group" id="group_pid11">
+          <div class="likert-question"><span class="q-num">11.</span> Engañar a las personas es solo cuestión de ser inteligente.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_11" value="0" id="pid_11_0"><label for="pid_11_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_11" value="1" id="pid_11_1"><label for="pid_11_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_11" value="2" id="pid_11_2"><label for="pid_11_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_11" value="3" id="pid_11_3"><label for="pid_11_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_pid12">
+          <div class="likert-question"><span class="q-num">12.</span> Es extraño que la gente espere que yo trate bien a las personas que no me gustan.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_12" value="0" id="pid_12_0"><label for="pid_12_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_12" value="1" id="pid_12_1"><label for="pid_12_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_12" value="2" id="pid_12_2"><label for="pid_12_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_12" value="3" id="pid_12_3"><label for="pid_12_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_pid13">
+          <div class="likert-question"><span class="q-num">13.</span> Realmente merezco cosas especiales en la vida.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_13" value="0" id="pid_13_0"><label for="pid_13_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_13" value="1" id="pid_13_1"><label for="pid_13_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_13" value="2" id="pid_13_2"><label for="pid_13_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_13" value="3" id="pid_13_3"><label for="pid_13_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_pid14">
+          <div class="likert-question"><span class="q-num">14.</span> Me enojan las personas que esperan que yo siga las reglas.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_14" value="0" id="pid_14_0"><label for="pid_14_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_14" value="1" id="pid_14_1"><label for="pid_14_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_14" value="2" id="pid_14_2"><label for="pid_14_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_14" value="3" id="pid_14_3"><label for="pid_14_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_pid15">
+          <div class="likert-question"><span class="q-num">15.</span> Uso a las personas para obtener lo que quiero.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_15" value="0" id="pid_15_0"><label for="pid_15_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_15" value="1" id="pid_15_1"><label for="pid_15_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_15" value="2" id="pid_15_2"><label for="pid_15_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_15" value="3" id="pid_15_3"><label for="pid_15_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <!-- Desinhibición -->
+        <div class="likert-group" id="group_pid16">
+          <div class="likert-question"><span class="q-num">16.</span> No pienso en las consecuencias de mis actos.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_16" value="0" id="pid_16_0"><label for="pid_16_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_16" value="1" id="pid_16_1"><label for="pid_16_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_16" value="2" id="pid_16_2"><label for="pid_16_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_16" value="3" id="pid_16_3"><label for="pid_16_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_pid17">
+          <div class="likert-question"><span class="q-num">17.</span> Cometo errores una y otra vez sin aprender de ellos.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_17" value="0" id="pid_17_0"><label for="pid_17_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_17" value="1" id="pid_17_1"><label for="pid_17_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_17" value="2" id="pid_17_2"><label for="pid_17_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_17" value="3" id="pid_17_3"><label for="pid_17_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_pid18">
+          <div class="likert-question"><span class="q-num">18.</span> Con frecuencia actúo de manera impulsiva.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_18" value="0" id="pid_18_0"><label for="pid_18_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_18" value="1" id="pid_18_1"><label for="pid_18_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_18" value="2" id="pid_18_2"><label for="pid_18_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_18" value="3" id="pid_18_3"><label for="pid_18_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_pid19">
+          <div class="likert-question"><span class="q-num">19.</span> Hago cosas peligrosas aunque sé que son peligrosas.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_19" value="0" id="pid_19_0"><label for="pid_19_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_19" value="1" id="pid_19_1"><label for="pid_19_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_19" value="2" id="pid_19_2"><label for="pid_19_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_19" value="3" id="pid_19_3"><label for="pid_19_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_pid20">
+          <div class="likert-question"><span class="q-num">20.</span> Me cuesta mucho resistir la tentación.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_20" value="0" id="pid_20_0"><label for="pid_20_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_20" value="1" id="pid_20_1"><label for="pid_20_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_20" value="2" id="pid_20_2"><label for="pid_20_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_20" value="3" id="pid_20_3"><label for="pid_20_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <!-- Psicoticismo -->
+        <div class="likert-group" id="group_pid21">
+          <div class="likert-question"><span class="q-num">21.</span> Tengo pensamientos que no tienen mucho sentido para otros.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_21" value="0" id="pid_21_0"><label for="pid_21_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_21" value="1" id="pid_21_1"><label for="pid_21_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_21" value="2" id="pid_21_2"><label for="pid_21_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_21" value="3" id="pid_21_3"><label for="pid_21_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_pid22">
+          <div class="likert-question"><span class="q-num">22.</span> Veo cosas que otros no pueden ver.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_22" value="0" id="pid_22_0"><label for="pid_22_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_22" value="1" id="pid_22_1"><label for="pid_22_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_22" value="2" id="pid_22_2"><label for="pid_22_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_22" value="3" id="pid_22_3"><label for="pid_22_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_pid23">
+          <div class="likert-question"><span class="q-num">23.</span> Escucho cosas que otros no pueden oír.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_23" value="0" id="pid_23_0"><label for="pid_23_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_23" value="1" id="pid_23_1"><label for="pid_23_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_23" value="2" id="pid_23_2"><label for="pid_23_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_23" value="3" id="pid_23_3"><label for="pid_23_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_pid24">
+          <div class="likert-question"><span class="q-num">24.</span> Soy una persona muy extraña e inusual.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_24" value="0" id="pid_24_0"><label for="pid_24_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_24" value="1" id="pid_24_1"><label for="pid_24_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_24" value="2" id="pid_24_2"><label for="pid_24_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_24" value="3" id="pid_24_3"><label for="pid_24_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_pid25">
+          <div class="likert-question"><span class="q-num">25.</span> A veces siento que no soy real o que las cosas a mi alrededor no son reales.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="pid_25" value="0" id="pid_25_0"><label for="pid_25_0"><div class="val">0</div>Muy falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_25" value="1" id="pid_25_1"><label for="pid_25_1"><div class="val">1</div>A veces falso</label></div>
+            <div class="likert-option"><input type="radio" name="pid_25" value="2" id="pid_25_2"><label for="pid_25_2"><div class="val">2</div>A veces verdadero</label></div>
+            <div class="likert-option"><input type="radio" name="pid_25" value="3" id="pid_25_3"><label for="pid_25_3"><div class="val">3</div>Muy verdadero</label></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SECCIÓN 5: IPO (versión breve 16 ítems)
+         Momentos: TP=0, TP=3
+    ══════════════════════════════════════════════════ -->
+    <div class="section-card" id="sec-ipo" style="display:none">
+      <div class="section-header">
+        <div class="section-number" id="num-ipo">5</div>
+        <div>
+          <div class="section-title">Organización de la personalidad</div>
+          <div class="section-subtitle">IPO-16 · Inventory of Personality Organization</div>
+        </div>
+        <div class="section-time">~3 min</div>
+      </div>
+      <div class="section-body">
+        <div class="section-instructions">
+          Indica con qué frecuencia se aplica cada afirmación a ti. <strong>1 = Nunca · 2 = Raramente · 3 = A veces · 4 = A menudo · 5 = Siempre</strong>
+        </div>
+
+        <div class="likert-group" id="group_ipo1">
+          <div class="likert-question"><span class="q-num">1.</span> Tengo períodos en que me siento muy bien conmigo mismo/a y períodos en que siento que soy completamente malo/a.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="ipo_1" value="1" id="ipo_1_1"><label for="ipo_1_1"><div class="val">1</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_1" value="2" id="ipo_1_2"><label for="ipo_1_2"><div class="val">2</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_1" value="3" id="ipo_1_3"><label for="ipo_1_3"><div class="val">3</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_1" value="4" id="ipo_1_4"><label for="ipo_1_4"><div class="val">4</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_1" value="5" id="ipo_1_5"><label for="ipo_1_5"><div class="val">5</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_ipo2">
+          <div class="likert-question"><span class="q-num">2.</span> Las personas son o completamente buenas o completamente malas, y pueden cambiar de un extremo al otro repentinamente.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="ipo_2" value="1" id="ipo_2_1"><label for="ipo_2_1"><div class="val">1</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_2" value="2" id="ipo_2_2"><label for="ipo_2_2"><div class="val">2</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_2" value="3" id="ipo_2_3"><label for="ipo_2_3"><div class="val">3</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_2" value="4" id="ipo_2_4"><label for="ipo_2_4"><div class="val">4</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_2" value="5" id="ipo_2_5"><label for="ipo_2_5"><div class="val">5</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_ipo3">
+          <div class="likert-question"><span class="q-num">3.</span> Me resulta difícil saber cómo me siento realmente sobre algo o alguien.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="ipo_3" value="1" id="ipo_3_1"><label for="ipo_3_1"><div class="val">1</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_3" value="2" id="ipo_3_2"><label for="ipo_3_2"><div class="val">2</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_3" value="3" id="ipo_3_3"><label for="ipo_3_3"><div class="val">3</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_3" value="4" id="ipo_3_4"><label for="ipo_3_4"><div class="val">4</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_3" value="5" id="ipo_3_5"><label for="ipo_3_5"><div class="val">5</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_ipo4">
+          <div class="likert-question"><span class="q-num">4.</span> Cuando estoy angustiado/a, no puedo recordar que hubo momentos buenos en mi vida.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="ipo_4" value="1" id="ipo_4_1"><label for="ipo_4_1"><div class="val">1</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_4" value="2" id="ipo_4_2"><label for="ipo_4_2"><div class="val">2</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_4" value="3" id="ipo_4_3"><label for="ipo_4_3"><div class="val">3</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_4" value="4" id="ipo_4_4"><label for="ipo_4_4"><div class="val">4</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_4" value="5" id="ipo_4_5"><label for="ipo_4_5"><div class="val">5</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_ipo5">
+          <div class="likert-question"><span class="q-num">5.</span> Siento que tengo que mentir o esconder cosas sobre mí mismo/a para ser aceptado/a.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="ipo_5" value="1" id="ipo_5_1"><label for="ipo_5_1"><div class="val">1</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_5" value="2" id="ipo_5_2"><label for="ipo_5_2"><div class="val">2</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_5" value="3" id="ipo_5_3"><label for="ipo_5_3"><div class="val">3</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_5" value="4" id="ipo_5_4"><label for="ipo_5_4"><div class="val">4</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_5" value="5" id="ipo_5_5"><label for="ipo_5_5"><div class="val">5</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_ipo6">
+          <div class="likert-question"><span class="q-num">6.</span> Cuando me enojo, puedo hacer cosas de las que luego me arrepiento.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="ipo_6" value="1" id="ipo_6_1"><label for="ipo_6_1"><div class="val">1</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_6" value="2" id="ipo_6_2"><label for="ipo_6_2"><div class="val">2</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_6" value="3" id="ipo_6_3"><label for="ipo_6_3"><div class="val">3</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_6" value="4" id="ipo_6_4"><label for="ipo_6_4"><div class="val">4</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_6" value="5" id="ipo_6_5"><label for="ipo_6_5"><div class="val">5</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_ipo7">
+          <div class="likert-question"><span class="q-num">7.</span> Cuando me relaciono con personas me siento a veces muy cercano/a y otras veces muy distante, sin razón aparente.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="ipo_7" value="1" id="ipo_7_1"><label for="ipo_7_1"><div class="val">1</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_7" value="2" id="ipo_7_2"><label for="ipo_7_2"><div class="val">2</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_7" value="3" id="ipo_7_3"><label for="ipo_7_3"><div class="val">3</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_7" value="4" id="ipo_7_4"><label for="ipo_7_4"><div class="val">4</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_7" value="5" id="ipo_7_5"><label for="ipo_7_5"><div class="val">5</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_ipo8">
+          <div class="likert-question"><span class="q-num">8.</span> Me preocupa que en algún momento pueda perder el control de mi comportamiento.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="ipo_8" value="1" id="ipo_8_1"><label for="ipo_8_1"><div class="val">1</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_8" value="2" id="ipo_8_2"><label for="ipo_8_2"><div class="val">2</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_8" value="3" id="ipo_8_3"><label for="ipo_8_3"><div class="val">3</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_8" value="4" id="ipo_8_4"><label for="ipo_8_4"><div class="val">4</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_8" value="5" id="ipo_8_5"><label for="ipo_8_5"><div class="val">5</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_ipo9">
+          <div class="likert-question"><span class="q-num">9.</span> Hay aspectos de mi carácter que ni siquiera yo entiendo.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="ipo_9" value="1" id="ipo_9_1"><label for="ipo_9_1"><div class="val">1</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_9" value="2" id="ipo_9_2"><label for="ipo_9_2"><div class="val">2</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_9" value="3" id="ipo_9_3"><label for="ipo_9_3"><div class="val">3</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_9" value="4" id="ipo_9_4"><label for="ipo_9_4"><div class="val">4</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_9" value="5" id="ipo_9_5"><label for="ipo_9_5"><div class="val">5</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_ipo10">
+          <div class="likert-question"><span class="q-num">10.</span> Hay momentos en que no estoy seguro/a de que lo que recuerdo haya sucedido realmente.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="ipo_10" value="1" id="ipo_10_1"><label for="ipo_10_1"><div class="val">1</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_10" value="2" id="ipo_10_2"><label for="ipo_10_2"><div class="val">2</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_10" value="3" id="ipo_10_3"><label for="ipo_10_3"><div class="val">3</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_10" value="4" id="ipo_10_4"><label for="ipo_10_4"><div class="val">4</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_10" value="5" id="ipo_10_5"><label for="ipo_10_5"><div class="val">5</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_ipo11">
+          <div class="likert-question"><span class="q-num">11.</span> Siento que la gente que me rodea no es real o que yo mismo/a no soy real.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="ipo_11" value="1" id="ipo_11_1"><label for="ipo_11_1"><div class="val">1</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_11" value="2" id="ipo_11_2"><label for="ipo_11_2"><div class="val">2</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_11" value="3" id="ipo_11_3"><label for="ipo_11_3"><div class="val">3</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_11" value="4" id="ipo_11_4"><label for="ipo_11_4"><div class="val">4</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_11" value="5" id="ipo_11_5"><label for="ipo_11_5"><div class="val">5</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_ipo12">
+          <div class="likert-question"><span class="q-num">12.</span> Mi sentido de quién soy cambia dramáticamente dependiendo de con quién estoy.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="ipo_12" value="1" id="ipo_12_1"><label for="ipo_12_1"><div class="val">1</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_12" value="2" id="ipo_12_2"><label for="ipo_12_2"><div class="val">2</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_12" value="3" id="ipo_12_3"><label for="ipo_12_3"><div class="val">3</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_12" value="4" id="ipo_12_4"><label for="ipo_12_4"><div class="val">4</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_12" value="5" id="ipo_12_5"><label for="ipo_12_5"><div class="val">5</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_ipo13">
+          <div class="likert-question"><span class="q-num">13.</span> Siento que mis relaciones son muy inestables, que oscilan entre ser idealizadas y despreciadas.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="ipo_13" value="1" id="ipo_13_1"><label for="ipo_13_1"><div class="val">1</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_13" value="2" id="ipo_13_2"><label for="ipo_13_2"><div class="val">2</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_13" value="3" id="ipo_13_3"><label for="ipo_13_3"><div class="val">3</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_13" value="4" id="ipo_13_4"><label for="ipo_13_4"><div class="val">4</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_13" value="5" id="ipo_13_5"><label for="ipo_13_5"><div class="val">5</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_ipo14">
+          <div class="likert-question"><span class="q-num">14.</span> Me preocupa que la gente me abandone o me rechace.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="ipo_14" value="1" id="ipo_14_1"><label for="ipo_14_1"><div class="val">1</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_14" value="2" id="ipo_14_2"><label for="ipo_14_2"><div class="val">2</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_14" value="3" id="ipo_14_3"><label for="ipo_14_3"><div class="val">3</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_14" value="4" id="ipo_14_4"><label for="ipo_14_4"><div class="val">4</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_14" value="5" id="ipo_14_5"><label for="ipo_14_5"><div class="val">5</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_ipo15">
+          <div class="likert-question"><span class="q-num">15.</span> Tengo comportamientos que son potencialmente autodestructivos.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="ipo_15" value="1" id="ipo_15_1"><label for="ipo_15_1"><div class="val">1</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_15" value="2" id="ipo_15_2"><label for="ipo_15_2"><div class="val">2</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_15" value="3" id="ipo_15_3"><label for="ipo_15_3"><div class="val">3</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_15" value="4" id="ipo_15_4"><label for="ipo_15_4"><div class="val">4</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_15" value="5" id="ipo_15_5"><label for="ipo_15_5"><div class="val">5</div>Siempre</label></div>
+          </div>
+        </div>
+
+        <div class="likert-group" id="group_ipo16">
+          <div class="likert-question"><span class="q-num">16.</span> Tengo dificultades para distinguir entre mis fantasías y la realidad.</div>
+          <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="ipo_16" value="1" id="ipo_16_1"><label for="ipo_16_1"><div class="val">1</div>Nunca</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_16" value="2" id="ipo_16_2"><label for="ipo_16_2"><div class="val">2</div>Raramente</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_16" value="3" id="ipo_16_3"><label for="ipo_16_3"><div class="val">3</div>A veces</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_16" value="4" id="ipo_16_4"><label for="ipo_16_4"><div class="val">4</div>A menudo</label></div>
+            <div class="likert-option"><input type="radio" name="ipo_16" value="5" id="ipo_16_5"><label for="ipo_16_5"><div class="val">5</div>Siempre</label></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SECCIÓN 6: WAI-P (Alianza Terapéutica)
+         Momentos: TP=1 (seguimiento mensual) y TP=3
+    ══════════════════════════════════════════════════ -->
+    <div class="section-card" id="sec-waip" style="display:none">
+      <div class="section-header">
+        <div class="section-number" id="num-waip">—</div>
+        <div>
+          <div class="section-title">Alianza terapéutica</div>
+          <div class="section-subtitle">WAI-P · Working Alliance Inventory – Patient version</div>
+        </div>
+        <div class="section-time">~3 min</div>
+      </div>
+      <div class="section-body">
+        <div class="section-instructions">
+          Las siguientes preguntas se refieren a tu relación con tu terapeuta. Indica con qué frecuencia se aplica cada afirmación. <strong>1 = Nunca · 2 = Raramente · 3 = A veces · 4 = A menudo · 5 = Con frecuencia · 6 = Muy frecuentemente · 7 = Siempre</strong>
+        </div>
+
+        <div class="likert-group" id="group_wai1">
+          <div class="likert-question"><span class="q-num">1.</span> Mi terapeuta y yo estamos de acuerdo sobre los pasos a seguir para mejorar mi situación.</div>
+          <div class="wai-scale">
+            <div class="likert-option"><input type="radio" name="wai_1" value="1" id="wai_1_1"><label for="wai_1_1"><div class="val">1</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_1" value="2" id="wai_1_2"><label for="wai_1_2"><div class="val">2</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_1" value="3" id="wai_1_3"><label for="wai_1_3"><div class="val">3</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_1" value="4" id="wai_1_4"><label for="wai_1_4"><div class="val">4</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_1" value="5" id="wai_1_5"><label for="wai_1_5"><div class="val">5</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_1" value="6" id="wai_1_6"><label for="wai_1_6"><div class="val">6</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_1" value="7" id="wai_1_7"><label for="wai_1_7"><div class="val">7</div></label></div>
+          </div>
+          <div class="wai-anchors"><span>Nunca</span><span>Siempre</span></div>
+        </div>
+
+        <div class="likert-group" id="group_wai2">
+          <div class="likert-question"><span class="q-num">2.</span> Lo que hago en terapia me da nuevas perspectivas sobre mi problema.</div>
+          <div class="wai-scale">
+            <div class="likert-option"><input type="radio" name="wai_2" value="1" id="wai_2_1"><label for="wai_2_1"><div class="val">1</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_2" value="2" id="wai_2_2"><label for="wai_2_2"><div class="val">2</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_2" value="3" id="wai_2_3"><label for="wai_2_3"><div class="val">3</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_2" value="4" id="wai_2_4"><label for="wai_2_4"><div class="val">4</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_2" value="5" id="wai_2_5"><label for="wai_2_5"><div class="val">5</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_2" value="6" id="wai_2_6"><label for="wai_2_6"><div class="val">6</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_2" value="7" id="wai_2_7"><label for="wai_2_7"><div class="val">7</div></label></div>
+          </div>
+          <div class="wai-anchors"><span>Nunca</span><span>Siempre</span></div>
+        </div>
+
+        <div class="likert-group" id="group_wai3">
+          <div class="likert-question"><span class="q-num">3.</span> Creo que mi terapeuta me aprecia.</div>
+          <div class="wai-scale">
+            <div class="likert-option"><input type="radio" name="wai_3" value="1" id="wai_3_1"><label for="wai_3_1"><div class="val">1</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_3" value="2" id="wai_3_2"><label for="wai_3_2"><div class="val">2</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_3" value="3" id="wai_3_3"><label for="wai_3_3"><div class="val">3</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_3" value="4" id="wai_3_4"><label for="wai_3_4"><div class="val">4</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_3" value="5" id="wai_3_5"><label for="wai_3_5"><div class="val">5</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_3" value="6" id="wai_3_6"><label for="wai_3_6"><div class="val">6</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_3" value="7" id="wai_3_7"><label for="wai_3_7"><div class="val">7</div></label></div>
+          </div>
+          <div class="wai-anchors"><span>Nunca</span><span>Siempre</span></div>
+        </div>
+
+        <div class="likert-group" id="group_wai4">
+          <div class="likert-question"><span class="q-num">4.</span> Mi terapeuta y yo tenemos una idea compartida de las metas de nuestra terapia.</div>
+          <div class="wai-scale">
+            <div class="likert-option"><input type="radio" name="wai_4" value="1" id="wai_4_1"><label for="wai_4_1"><div class="val">1</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_4" value="2" id="wai_4_2"><label for="wai_4_2"><div class="val">2</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_4" value="3" id="wai_4_3"><label for="wai_4_3"><div class="val">3</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_4" value="4" id="wai_4_4"><label for="wai_4_4"><div class="val">4</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_4" value="5" id="wai_4_5"><label for="wai_4_5"><div class="val">5</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_4" value="6" id="wai_4_6"><label for="wai_4_6"><div class="val">6</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_4" value="7" id="wai_4_7"><label for="wai_4_7"><div class="val">7</div></label></div>
+          </div>
+          <div class="wai-anchors"><span>Nunca</span><span>Siempre</span></div>
+        </div>
+
+        <div class="likert-group" id="group_wai5">
+          <div class="likert-question"><span class="q-num">5.</span> Mi terapeuta y yo confiamos el uno en el otro.</div>
+          <div class="wai-scale">
+            <div class="likert-option"><input type="radio" name="wai_5" value="1" id="wai_5_1"><label for="wai_5_1"><div class="val">1</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_5" value="2" id="wai_5_2"><label for="wai_5_2"><div class="val">2</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_5" value="3" id="wai_5_3"><label for="wai_5_3"><div class="val">3</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_5" value="4" id="wai_5_4"><label for="wai_5_4"><div class="val">4</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_5" value="5" id="wai_5_5"><label for="wai_5_5"><div class="val">5</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_5" value="6" id="wai_5_6"><label for="wai_5_6"><div class="val">6</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_5" value="7" id="wai_5_7"><label for="wai_5_7"><div class="val">7</div></label></div>
+          </div>
+          <div class="wai-anchors"><span>Nunca</span><span>Siempre</span></div>
+        </div>
+
+        <div class="likert-group" id="group_wai6">
+          <div class="likert-question"><span class="q-num">6.</span> Mi terapeuta y yo tenemos puntos de vista similares sobre cuál es mi problema principal.</div>
+          <div class="wai-scale">
+            <div class="likert-option"><input type="radio" name="wai_6" value="1" id="wai_6_1"><label for="wai_6_1"><div class="val">1</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_6" value="2" id="wai_6_2"><label for="wai_6_2"><div class="val">2</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_6" value="3" id="wai_6_3"><label for="wai_6_3"><div class="val">3</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_6" value="4" id="wai_6_4"><label for="wai_6_4"><div class="val">4</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_6" value="5" id="wai_6_5"><label for="wai_6_5"><div class="val">5</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_6" value="6" id="wai_6_6"><label for="wai_6_6"><div class="val">6</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_6" value="7" id="wai_6_7"><label for="wai_6_7"><div class="val">7</div></label></div>
+          </div>
+          <div class="wai-anchors"><span>Nunca</span><span>Siempre</span></div>
+        </div>
+
+        <div class="likert-group" id="group_wai7">
+          <div class="likert-question"><span class="q-num">7.</span> Me siento a gusto con mi terapeuta.</div>
+          <div class="wai-scale">
+            <div class="likert-option"><input type="radio" name="wai_7" value="1" id="wai_7_1"><label for="wai_7_1"><div class="val">1</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_7" value="2" id="wai_7_2"><label for="wai_7_2"><div class="val">2</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_7" value="3" id="wai_7_3"><label for="wai_7_3"><div class="val">3</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_7" value="4" id="wai_7_4"><label for="wai_7_4"><div class="val">4</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_7" value="5" id="wai_7_5"><label for="wai_7_5"><div class="val">5</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_7" value="6" id="wai_7_6"><label for="wai_7_6"><div class="val">6</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_7" value="7" id="wai_7_7"><label for="wai_7_7"><div class="val">7</div></label></div>
+          </div>
+          <div class="wai-anchors"><span>Nunca</span><span>Siempre</span></div>
+        </div>
+
+        <div class="likert-group" id="group_wai8">
+          <div class="likert-question"><span class="q-num">8.</span> Mi terapeuta y yo trabajamos en conjunto hacia metas mutuamente acordadas.</div>
+          <div class="wai-scale">
+            <div class="likert-option"><input type="radio" name="wai_8" value="1" id="wai_8_1"><label for="wai_8_1"><div class="val">1</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_8" value="2" id="wai_8_2"><label for="wai_8_2"><div class="val">2</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_8" value="3" id="wai_8_3"><label for="wai_8_3"><div class="val">3</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_8" value="4" id="wai_8_4"><label for="wai_8_4"><div class="val">4</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_8" value="5" id="wai_8_5"><label for="wai_8_5"><div class="val">5</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_8" value="6" id="wai_8_6"><label for="wai_8_6"><div class="val">6</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_8" value="7" id="wai_8_7"><label for="wai_8_7"><div class="val">7</div></label></div>
+          </div>
+          <div class="wai-anchors"><span>Nunca</span><span>Siempre</span></div>
+        </div>
+
+        <div class="likert-group" id="group_wai9">
+          <div class="likert-question"><span class="q-num">9.</span> Siento que lo que hago en terapia es relevante para mis metas.</div>
+          <div class="wai-scale">
+            <div class="likert-option"><input type="radio" name="wai_9" value="1" id="wai_9_1"><label for="wai_9_1"><div class="val">1</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_9" value="2" id="wai_9_2"><label for="wai_9_2"><div class="val">2</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_9" value="3" id="wai_9_3"><label for="wai_9_3"><div class="val">3</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_9" value="4" id="wai_9_4"><label for="wai_9_4"><div class="val">4</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_9" value="5" id="wai_9_5"><label for="wai_9_5"><div class="val">5</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_9" value="6" id="wai_9_6"><label for="wai_9_6"><div class="val">6</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_9" value="7" id="wai_9_7"><label for="wai_9_7"><div class="val">7</div></label></div>
+          </div>
+          <div class="wai-anchors"><span>Nunca</span><span>Siempre</span></div>
+        </div>
+
+        <div class="likert-group" id="group_wai10">
+          <div class="likert-question"><span class="q-num">10.</span> Tengo confianza en la habilidad de mi terapeuta para ayudarme.</div>
+          <div class="wai-scale">
+            <div class="likert-option"><input type="radio" name="wai_10" value="1" id="wai_10_1"><label for="wai_10_1"><div class="val">1</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_10" value="2" id="wai_10_2"><label for="wai_10_2"><div class="val">2</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_10" value="3" id="wai_10_3"><label for="wai_10_3"><div class="val">3</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_10" value="4" id="wai_10_4"><label for="wai_10_4"><div class="val">4</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_10" value="5" id="wai_10_5"><label for="wai_10_5"><div class="val">5</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_10" value="6" id="wai_10_6"><label for="wai_10_6"><div class="val">6</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_10" value="7" id="wai_10_7"><label for="wai_10_7"><div class="val">7</div></label></div>
+          </div>
+          <div class="wai-anchors"><span>Nunca</span><span>Siempre</span></div>
+        </div>
+
+        <div class="likert-group" id="group_wai11">
+          <div class="likert-question"><span class="q-num">11.</span> Mi terapeuta y yo hemos establecido una buena comprensión de los tipos de cambios que serían buenos para mí.</div>
+          <div class="wai-scale">
+            <div class="likert-option"><input type="radio" name="wai_11" value="1" id="wai_11_1"><label for="wai_11_1"><div class="val">1</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_11" value="2" id="wai_11_2"><label for="wai_11_2"><div class="val">2</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_11" value="3" id="wai_11_3"><label for="wai_11_3"><div class="val">3</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_11" value="4" id="wai_11_4"><label for="wai_11_4"><div class="val">4</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_11" value="5" id="wai_11_5"><label for="wai_11_5"><div class="val">5</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_11" value="6" id="wai_11_6"><label for="wai_11_6"><div class="val">6</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_11" value="7" id="wai_11_7"><label for="wai_11_7"><div class="val">7</div></label></div>
+          </div>
+          <div class="wai-anchors"><span>Nunca</span><span>Siempre</span></div>
+        </div>
+
+        <div class="likert-group" id="group_wai12">
+          <div class="likert-question"><span class="q-num">12.</span> Creo que la manera en que estamos trabajando sobre mi problema es correcta.</div>
+          <div class="wai-scale">
+            <div class="likert-option"><input type="radio" name="wai_12" value="1" id="wai_12_1"><label for="wai_12_1"><div class="val">1</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_12" value="2" id="wai_12_2"><label for="wai_12_2"><div class="val">2</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_12" value="3" id="wai_12_3"><label for="wai_12_3"><div class="val">3</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_12" value="4" id="wai_12_4"><label for="wai_12_4"><div class="val">4</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_12" value="5" id="wai_12_5"><label for="wai_12_5"><div class="val">5</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_12" value="6" id="wai_12_6"><label for="wai_12_6"><div class="val">6</div></label></div>
+            <div class="likert-option"><input type="radio" name="wai_12" value="7" id="wai_12_7"><label for="wai_12_7"><div class="val">7</div></label></div>
+          </div>
+          <div class="wai-anchors"><span>Nunca</span><span>Siempre</span></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Botón de envío -->
+    <div class="submit-area">
+      <button class="btn-submit" id="btnSubmit" onclick="submitForm()">Enviar respuestas</button>
+      <p class="submit-note">Tus respuestas son confidenciales y serán revisadas solo por el Dr. Labbé.</p>
+    </div>
+
+  </div><!-- fin formWrapper -->
+</div><!-- fin container -->
+
+<script>
+// ═══════════════════════════════════════════════════
+// CONFIGURACIÓN — SOLO EDITAR AQUÍ
+// ═══════════════════════════════════════════════════
+const GOOGLE_SCRIPT_URL = 'TU_GOOGLE_SCRIPT_URL_AQUI'; // ← Pegar URL tras publicar el Apps Script
+
+// Definición de momentos
+const MOMENTOS = {
+  0: { label: 'Evaluación de Ingreso',         badge: 'Ingreso · TP-0',                secciones: ['sec-dsm5','sec-phq9','sec-lpfs','sec-pid5','sec-ipo'] },
+  1: { label: 'Seguimiento Mensual',           badge: 'Seguimiento mensual · TP-1',    secciones: ['sec-waip'] },
+  3: { label: 'Evaluación de Seguimiento 3m',  badge: 'Seguimiento 3 meses · TP-3',    secciones: ['sec-dsm5','sec-phq9','sec-lpfs','sec-pid5','sec-ipo','sec-waip'] },
+};
+
+// Campos requeridos por sección
+const CAMPOS_REQUERIDOS = {
+  'sec-dsm5': Array.from({length:17}, (_,i) => `dsm_${i+1}`),
+  'sec-phq9': Array.from({length:9},  (_,i) => `phq_${i+1}`),
+  'sec-lpfs': Array.from({length:12}, (_,i) => `lpfs_${i+1}`),
+  'sec-pid5': Array.from({length:25}, (_,i) => `pid_${i+1}`),
+  'sec-ipo':  Array.from({length:16}, (_,i) => `ipo_${i+1}`),
+  'sec-waip': Array.from({length:12}, (_,i) => `wai_${i+1}`),
+};
+
+// ═══════════════════════════════════════════════════
+// LÓGICA PRINCIPAL
+// ═══════════════════════════════════════════════════
+const params  = new URLSearchParams(window.location.search);
+const ID_Pac  = params.get('ID_Pac') || 'SIN_ID';
+const TP      = parseInt(params.get('TP') ?? '0');
+const momento = MOMENTOS[TP] || MOMENTOS[0];
+
+// Inicializar página
+document.getElementById('momentBadge').textContent = momento.badge;
+document.getElementById('introTitle').textContent  = momento.label;
+
+// Mostrar pills de instrumentos
+const pillNames = {
+  'sec-dsm5': 'DSM-5 Cross-Cutting',
+  'sec-phq9': 'PHQ-9',
+  'sec-lpfs': 'LPFS-BF',
+  'sec-pid5': 'PID-5 BF',
+  'sec-ipo':  'IPO-16',
+  'sec-waip': 'WAI-P',
+};
+const pillsWrap = document.getElementById('instrumentsList');
+momento.secciones.forEach(s => {
+  const p = document.createElement('span');
+  p.className = 'instrument-pill';
+  p.textContent = pillNames[s];
+  pillsWrap.appendChild(p);
+});
+
+// Mostrar solo las secciones del momento y numerar
+let sectionCounter = 1;
+momento.secciones.forEach(secId => {
+  const el = document.getElementById(secId);
+  if (el) {
+    el.style.display = 'block';
+    const numEl = el.querySelector('[id^="num-"]');
+    if (numEl) numEl.textContent = sectionCounter++;
+  }
+});
+
+// Progreso
+const todosLosRadios = document.querySelectorAll('input[type="radio"]');
+function updateProgress() {
+  const requiredFields = momento.secciones.flatMap(s => CAMPOS_REQUERIDOS[s] || []);
+  const answered = requiredFields.filter(name =>
+    document.querySelector(`input[name="${name}"]:checked`)
+  ).length;
+  const pct = requiredFields.length ? Math.round((answered / requiredFields.length) * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = pct + '%';
+}
+todosLosRadios.forEach(r => r.addEventListener('change', updateProgress));
+updateProgress();
+
+// ═══════════════════════════════════════════════════
+// ENVÍO
+// ═══════════════════════════════════════════════════
+function getVal(name) {
+  const el = document.querySelector(`input[name="${name}"]:checked`);
+  return el ? parseInt(el.value) : null;
+}
+
+function calcScore(nombres) {
+  const vals = nombres.map(n => getVal(n)).filter(v => v !== null);
+  return vals.length === nombres.length
+    ? vals.reduce((a,b) => a+b, 0)
+    : null;
+}
+
+function submitForm() {
+  // Validación
+  const requiredFields = momento.secciones.flatMap(s => CAMPOS_REQUERIDOS[s] || []);
+  const missing = requiredFields.filter(name =>
+    !document.querySelector(`input[name="${name}"]:checked`)
+  );
+
+  // Marcar grupos incompletos
+  document.querySelectorAll('.likert-group, .radio-group-vertical').forEach(g => {
+    g.style.background = '';
+    g.style.borderRadius = '';
+    g.style.outline = '';
+  });
+
+  if (missing.length > 0) {
+    document.getElementById('validationError').classList.add('active');
+    missing.forEach(name => {
+      const anyInput = document.querySelector(`input[name="${name}"]`);
+      if (anyInput) {
+        const group = anyInput.closest('.likert-group, .radio-group-vertical');
+        if (group) {
+          group.style.background = '#fff5f5';
+          group.style.borderRadius = '8px';
+          group.style.outline = '1.5px solid #ffbbbb';
+        }
+      }
+    });
+    document.getElementById('validationError').scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+
+  document.getElementById('validationError').classList.remove('active');
+  document.getElementById('btnSubmit').disabled = true;
+  document.getElementById('sendingOverlay').classList.add('active');
+
+  // Calcular scores
+  const dsm_items  = CAMPOS_REQUERIDOS['sec-dsm5'];
+  const phq_items  = CAMPOS_REQUERIDOS['sec-phq9'];
+  const lpfs_items = CAMPOS_REQUERIDOS['sec-lpfs'];
+  const pid_items  = CAMPOS_REQUERIDOS['sec-pid5'];
+  const ipo_items  = CAMPOS_REQUERIDOS['sec-ipo'];
+  const wai_items  = CAMPOS_REQUERIDOS['sec-waip'];
+
+  // PID-5 subescalas (BF 25 ítems)
+  const pid_AN  = ['pid_1','pid_2','pid_3','pid_4','pid_5'].map(getVal);
+  const pid_DET = ['pid_6','pid_7','pid_8','pid_9','pid_10'].map(getVal);
+  const pid_ANT = ['pid_11','pid_12','pid_13','pid_14','pid_15'].map(getVal);
+  const pid_DES = ['pid_16','pid_17','pid_18','pid_19','pid_20'].map(getVal);
+  const pid_PSI = ['pid_21','pid_22','pid_23','pid_24','pid_25'].map(getVal);
+  const sum = arr => arr.every(v => v !== null) ? arr.reduce((a,b)=>a+b,0) : '';
+
+  // WAI subescalas (Tareas, Metas, Vínculo)
+  const wai_T = ['wai_1','wai_2','wai_5','wai_8'].map(getVal);
+  const wai_G = ['wai_4','wai_6','wai_7','wai_11'].map(getVal);
+  const wai_B = ['wai_3','wai_9','wai_10','wai_12'].map(getVal);
+
+  // LPFS subescalas
+  const lpfs_ID  = ['lpfs_1','lpfs_2','lpfs_3'].map(getVal);
+  const lpfs_AD  = ['lpfs_4','lpfs_5','lpfs_6'].map(getVal);
+  const lpfs_EM  = ['lpfs_7','lpfs_8'].map(getVal);
+  const lpfs_INT = ['lpfs_9','lpfs_10','lpfs_11','lpfs_12'].map(getVal);
+
+  // Construir payload
+  const payload = {
+    timestamp: new Date().toISOString(),
+    ID_Pac,
+    TP,
+    momento_label: momento.label,
+  };
+
+  // Ítems individuales
+  [...dsm_items, ...phq_items, ...lpfs_items, ...pid_items, ...ipo_items, ...wai_items].forEach(name => {
+    payload[name] = getVal(name) ?? '';
+  });
+
+  // Scores calculados
+  if (momento.secciones.includes('sec-dsm5')) payload['score_DSM5_total'] = sum(dsm_items.map(getVal));
+  if (momento.secciones.includes('sec-phq9')) payload['score_PHQ9_total'] = sum(phq_items.map(getVal));
+  if (momento.secciones.includes('sec-lpfs')) {
+    payload['score_LPFS_Identidad']    = sum(lpfs_ID);
+    payload['score_LPFS_Autodireccion']= sum(lpfs_AD);
+    payload['score_LPFS_Empatia']      = sum(lpfs_EM);
+    payload['score_LPFS_Intimidad']    = sum(lpfs_INT);
+    payload['score_LPFS_total']        = sum([...lpfs_ID,...lpfs_AD,...lpfs_EM,...lpfs_INT]);
+  }
+  if (momento.secciones.includes('sec-pid5')) {
+    payload['score_PID5_AfectoNeg']    = sum(pid_AN);
+    payload['score_PID5_Distanciamiento'] = sum(pid_DET);
+    payload['score_PID5_Antagonismo']  = sum(pid_ANT);
+    payload['score_PID5_Desinhibicion']= sum(pid_DES);
+    payload['score_PID5_Psicoticismo'] = sum(pid_PSI);
+    payload['score_PID5_total']        = sum([...pid_AN,...pid_DET,...pid_ANT,...pid_DES,...pid_PSI]);
+  }
+  if (momento.secciones.includes('sec-ipo'))  payload['score_IPO_total'] = sum(ipo_items.map(getVal));
+  if (momento.secciones.includes('sec-waip')) {
+    payload['score_WAI_Tareas'] = sum(wai_T);
+    payload['score_WAI_Metas']  = sum(wai_G);
+    payload['score_WAI_Vinculo']= sum(wai_B);
+    payload['score_WAI_total']  = sum([...wai_T,...wai_G,...wai_B]);
+  }
+
+  // Envío
+  fetch(GOOGLE_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(() => {
+    document.getElementById('sendingOverlay').classList.remove('active');
+    document.getElementById('formWrapper').style.display = 'none';
+    document.getElementById('progressBar').style.display = 'none';
+    document.getElementById('successScreen').classList.add('active');
+  })
+  .catch(() => {
+    document.getElementById('sendingOverlay').classList.remove('active');
+    document.getElementById('btnSubmit').disabled = false;
+    alert('Hubo un error al enviar. Por favor intenta nuevamente o contacta al Dr. Labbé.');
+  });
+}
+</script>
+</body>
+</html>
