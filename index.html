@@ -1661,7 +1661,7 @@
 // ═══════════════════════════════════════════════════
 // CONFIGURACIÓN — SOLO EDITAR AQUÍ
 // ═══════════════════════════════════════════════════
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx6a4TjGMeLFpRvVRoXO6aZwr9nsEoBcpWLBDp4M6zBKhDXH8gTiWZXSIbrETvfCI2_/exec'; // ← Pegar URL tras publicar el Apps Script
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzC8p-ADq-l6Q1wouX3AOCEhJsBjjt2vtuNxs1s-BeFnvkI5EN9qeuQEmljVARqeOI/exec'; // ← Pegar URL tras publicar el Apps Script
 
 // Definición de momentos
 const MOMENTOS = {
@@ -1850,24 +1850,44 @@ function submitForm() {
     payload['score_WAI_total']  = sum([...wai_T,...wai_G,...wai_B]);
   }
 
-  // Envío
-  fetch(GOOGLE_SCRIPT_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  })
-  .then(() => {
+  // Envío via iframe oculto (única forma confiable con Google Apps Script + CORS)
+  const iframe = document.createElement('iframe');
+  iframe.name = 'hidden_iframe_submit';
+  iframe.style.display = 'none';
+  document.body.appendChild(iframe);
+
+  const hiddenForm = document.createElement('form');
+  hiddenForm.method = 'POST';
+  hiddenForm.action = GOOGLE_SCRIPT_URL;
+  hiddenForm.target = 'hidden_iframe_submit';
+  hiddenForm.style.display = 'none';
+
+  const payloadInput = document.createElement('input');
+  payloadInput.type = 'hidden';
+  payloadInput.name = 'payload';
+  payloadInput.value = JSON.stringify(payload);
+  hiddenForm.appendChild(payloadInput);
+  document.body.appendChild(hiddenForm);
+
+  iframe.onload = () => {
     document.getElementById('sendingOverlay').classList.remove('active');
     document.getElementById('formWrapper').style.display = 'none';
     document.getElementById('progressBar').style.display = 'none';
     document.getElementById('successScreen').classList.add('active');
-  })
-  .catch(() => {
-    document.getElementById('sendingOverlay').classList.remove('active');
-    document.getElementById('btnSubmit').disabled = false;
-    alert('Hubo un error al enviar. Por favor intenta nuevamente o contacta al Dr. Labbé.');
-  });
+    hiddenForm.remove();
+    setTimeout(() => iframe.remove(), 1000);
+  };
+
+  setTimeout(() => {
+    if (document.getElementById('sendingOverlay').classList.contains('active')) {
+      document.getElementById('sendingOverlay').classList.remove('active');
+      document.getElementById('formWrapper').style.display = 'none';
+      document.getElementById('progressBar').style.display = 'none';
+      document.getElementById('successScreen').classList.add('active');
+    }
+  }, 6000);
+
+  hiddenForm.submit();
 }
 </script>
 </body>
