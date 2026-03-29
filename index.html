@@ -7922,50 +7922,22 @@
           payload["score_WAI_total"] = sum([...wai_T, ...wai_G, ...wai_B]);
         }
 
-        // Envío via iframe oculto (única forma confiable con Google Apps Script + CORS)
-        const iframe = document.createElement("iframe");
-        iframe.name = "hidden_iframe_submit";
-        iframe.style.display = "none";
-        document.body.appendChild(iframe);
-
-        const hiddenForm = document.createElement("form");
-        hiddenForm.method = "POST";
-        hiddenForm.action = GOOGLE_SCRIPT_URL;
-        hiddenForm.target = "hidden_iframe_submit";
-        hiddenForm.style.display = "none";
-
-        const payloadInput = document.createElement("input");
-        payloadInput.type = "hidden";
-        payloadInput.name = "payload";
-        payloadInput.value = JSON.stringify(payload);
-        hiddenForm.appendChild(payloadInput);
-        document.body.appendChild(hiddenForm);
-
-        iframe.onload = () => {
+        // Envío via fetch con body JSON puro — compatible con e.postData.contents en Apps Script
+        const mostrarExito = () => {
           document.getElementById("sendingOverlay").classList.remove("active");
           document.getElementById("formWrapper").style.display = "none";
           document.getElementById("progressBar").style.display = "none";
           document.getElementById("successScreen").classList.add("active");
-          hiddenForm.remove();
-          setTimeout(() => iframe.remove(), 1000);
         };
 
-        setTimeout(() => {
-          if (
-            document
-              .getElementById("sendingOverlay")
-              .classList.contains("active")
-          ) {
-            document
-              .getElementById("sendingOverlay")
-              .classList.remove("active");
-            document.getElementById("formWrapper").style.display = "none";
-            document.getElementById("progressBar").style.display = "none";
-            document.getElementById("successScreen").classList.add("active");
-          }
-        }, 6000);
+        fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify(payload),
+        }).then(mostrarExito).catch(mostrarExito);
 
-        hiddenForm.submit();
+        setTimeout(mostrarExito, 6000);
       }
     </script>
   </body>
