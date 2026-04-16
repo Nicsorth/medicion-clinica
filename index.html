@@ -7979,7 +7979,9 @@
       // LÓGICA PRINCIPAL
       // ═══════════════════════════════════════════════════
       const params = new URLSearchParams(window.location.search);
-      const ID_Pac = params.get("ID_Pac") || "SIN_ID";
+      const ID_Pac = (Array.from(params.keys()).find(k => k.toLowerCase() === "id_pac")
+        ? params.get(Array.from(params.keys()).find(k => k.toLowerCase() === "id_pac"))
+        : null) || "SIN_ID";
       const TP = parseInt(params.get("TP") ?? "0");
       const MES = params.get("MES") || "";
       const momento = MOMENTOS[TP] || MOMENTOS[0];
