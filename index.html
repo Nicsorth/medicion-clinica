@@ -608,7 +608,7 @@
 
         <!-- ══════════════════════════════════════════════════
          SECCIÓN 1: DSM-5 Cross-Cutting Level 1
-         Momentos: TP=0 (ingreso), TP=3 (cada 3 meses)
+         Momentos: TP=0 (ingreso), TP=3, TP=6, TP=9, TP=12 (seguimientos)
     ══════════════════════════════════════════════════ -->
         <div class="section-card" id="sec-dsm5" style="display: none">
           <div class="section-header">
@@ -1848,7 +1848,7 @@
 
         <!-- ══════════════════════════════════════════════════
          SECCIÓN 2: PHQ-9
-         Momentos: TP=0, TP=3
+         Momentos: TP=0, TP=3, TP=6, TP=9, TP=12
     ══════════════════════════════════════════════════ -->
         <div class="section-card" id="sec-phq9" style="display: none">
           <div class="section-header">
@@ -2354,7 +2354,7 @@
 
         <!-- ══════════════════════════════════════════════════
          SECCIÓN 3: LPFS-BF
-         Momentos: TP=0, TP=3
+         Momentos: TP=0, TP=3, TP=6, TP=9, TP=12
     ══════════════════════════════════════════════════ -->
         <div class="section-card" id="sec-lpfs" style="display: none">
           <div class="section-header">
@@ -3153,8 +3153,8 @@
         </div>
 
         <!-- ══════════════════════════════════════════════════
-         SECCIÓN 4: PID-5 (versión breve 25 ítems)
-         Momentos: TP=0, TP=3
+         SECCIÓN 4: PID-5 (versión breve 36 ítems)
+         Momentos: TP=0, TP=3, TP=6, TP=9, TP=12
     ══════════════════════════════════════════════════ -->
         <div class="section-card" id="sec-pid5" style="display: none">
           <div class="section-header">
@@ -4645,8 +4645,8 @@
         </div>
 
         <!-- ══════════════════════════════════════════════════
-         SECCIÓN 5: IPO (versión breve 16 ítems)
-         Momentos: TP=0, TP=3
+         SECCIÓN 5: IPO-83
+         Momentos: TP=0, TP=3, TP=6, TP=9, TP=12
     ══════════════════════════════════════════════════ -->
         <div class="section-card" id="sec-ipo" style="display: none">
           <div class="section-header">
@@ -7034,7 +7034,7 @@
 
         <!-- ══════════════════════════════════════════════════
          SECCIÓN 6: WAI-P (Alianza Terapéutica)
-         Momentos: TP=1 (seguimiento mensual) y TP=3
+         Momentos: TP=1 (seguimiento mensual), TP=3, TP=6, TP=9, TP=12
     ══════════════════════════════════════════════════ -->
         <div class="section-card" id="sec-waip" style="display: none">
           <div class="section-header">
@@ -7918,6 +7918,42 @@
         3: {
           label: "Evaluación de Seguimiento 3m",
           badge: "Seguimiento 3 meses · TP-3",
+          secciones: [
+            "sec-dsm5",
+            "sec-phq9",
+            "sec-lpfs",
+            "sec-pid5",
+            "sec-ipo",
+            "sec-waip",
+          ],
+        },
+        6: {
+          label: "Evaluación de Seguimiento 6m",
+          badge: "Seguimiento 6 meses · TP-6",
+          secciones: [
+            "sec-dsm5",
+            "sec-phq9",
+            "sec-lpfs",
+            "sec-pid5",
+            "sec-ipo",
+            "sec-waip",
+          ],
+        },
+        9: {
+          label: "Evaluación de Seguimiento 9m",
+          badge: "Seguimiento 9 meses · TP-9",
+          secciones: [
+            "sec-dsm5",
+            "sec-phq9",
+            "sec-lpfs",
+            "sec-pid5",
+            "sec-ipo",
+            "sec-waip",
+          ],
+        },
+        12: {
+          label: "Evaluación de Seguimiento 12m",
+          badge: "Seguimiento 12 meses · TP-12",
           secciones: [
             "sec-dsm5",
             "sec-phq9",
