@@ -538,6 +538,52 @@
           padding: 20px;
         }
       }
+      /* Consent section */
+      .consent-box {
+        background: var(--paper-warm);
+        border-left: 3px solid var(--accent);
+        padding: 18px 22px;
+        border-radius: 6px;
+        font-size: 14px;
+        color: var(--ink);
+        line-height: 1.7;
+        margin: 20px 24px 0;
+      }
+      .consent-box strong { color: var(--accent-mid); font-weight: 500; }
+      .consent-check {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 14px 24px;
+        margin-top: 12px;
+        cursor: pointer;
+      }
+      .consent-check input[type="checkbox"] {
+        margin-top: 3px;
+        accent-color: var(--accent);
+        width: 18px; height: 18px;
+        flex-shrink: 0;
+        cursor: pointer;
+      }
+      .consent-check label {
+        cursor: pointer;
+        font-size: 14px;
+        color: var(--ink);
+        line-height: 1.55;
+      }
+      .consent-check--optional {
+        background: var(--paper-warm);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        margin: 0 24px 20px;
+      }
+      .consent-check--optional label { color: var(--ink-soft); }
+      .consent-error {
+        display: none;
+        color: #c0392b;
+        font-size: 13px;
+        padding: 8px 24px 0;
+      }
     </style>
   </head>
   <body>
@@ -549,7 +595,7 @@
 
     <!-- Header -->
     <div class="header">
-      <div class="header-logo">Dr. Nicolás Labbé · PersonalidadSana</div>
+      <div class="header-logo">Dr. Nicolás Labbé</div>
       <div class="header-sub">Evaluación Clínica Psicológica</div>
     </div>
 
@@ -604,6 +650,53 @@
         <div class="validation-error" id="validationError">
           Por favor responde todas las preguntas antes de continuar. Las
           preguntas sin respuesta están marcadas en rojo.
+        </div>
+
+        <!-- ══════════════════════════════════════════════════
+         SECCIÓN 0: CONSENTIMIENTO INFORMADO (Ley 21.719)
+         Siempre visible — todos los momentos
+    ══════════════════════════════════════════════════ -->
+        <div class="section-card" id="sec-consent" style="display:none">
+          <div class="section-header">
+            <div class="section-number" id="num-consent">—</div>
+            <span class="section-title">Información y consentimiento</span>
+          </div>
+          <div class="consent-box">
+            <strong>¿Qué información entregamos?</strong> Solo sus respuestas a estas preguntas,
+            vinculadas a un código interno, sin nombre ni RUT.<br/><br/>
+            <strong>¿Para qué?</strong> El Dr. Nicolás Labbé utilizará sus respuestas
+            exclusivamente para orientar su tratamiento y hacer seguimiento de su evolución.<br/><br/>
+            <strong>¿Cuánto tiempo se guardan?</strong> Mientras dure el proceso terapéutico
+            y conforme a los plazos legales de conservación de fichas clínicas.<br/><br/>
+            <strong>¿Dónde se almacenan?</strong> En Google Sheets (Google LLC, EE.UU.), con
+            acceso restringido al Dr. Labbé. Google actúa como proveedor de infraestructura
+            bajo compromisos contractuales de protección de datos (Google Workspace DPA). Sus
+            respuestas no incluyen su nombre ni RUT — solo un código interno que no permite
+            identificarle directamente.<br/><br/>
+            <strong>¿Tiene derechos sobre sus datos?</strong> Sí. Puede pedir acceso,
+            corrección o eliminación de sus datos en cualquier momento escribiendo a
+            <strong>consulta.nicolaslabbe@gmail.com</strong>.
+          </div>
+          <div class="consent-check">
+            <input type="checkbox" id="consentOkChk" />
+            <label for="consentOkChk">
+              Entiendo lo anterior y acepto que mis respuestas sean utilizadas para el
+              seguimiento de mi proceso terapéutico. <strong>(obligatorio)</strong>
+            </label>
+          </div>
+          <p class="consent-error" id="consentError">
+            Debe aceptar el consentimiento para poder continuar.
+          </p>
+          <div class="consent-check consent-check--optional">
+            <input type="checkbox" id="consentInvChk" />
+            <label for="consentInvChk">
+              <em>Opcional:</em> Acepto además que mis respuestas, de forma completamente
+              anónima y agrupada —sin que ningún dato pueda identificarme ni siquiera de
+              manera indirecta—, puedan ser utilizadas para evaluar la efectividad general
+              del tratamiento y difundirse públicamente con fines de transparencia sobre
+              los resultados del trabajo clínico.
+            </label>
+          </div>
         </div>
 
         <!-- ══════════════════════════════════════════════════
@@ -5989,6 +6082,7 @@
           label: "Evaluación de Ingreso",
           badge: "Ingreso · TP-0",
           secciones: [
+            "sec-consent",
             "sec-coreom",
             "sec-dsm5",
             "sec-lpfs",
@@ -5998,12 +6092,13 @@
         1: {
           label: "Seguimiento Mensual",
           badge: "Seguimiento mensual · TP-1",
-          secciones: ["sec-waip"],
+          secciones: ["sec-consent", "sec-waip"],
         },
         3: {
           label: "Evaluación de Seguimiento 3m",
           badge: "Seguimiento 3 meses · TP-3",
           secciones: [
+            "sec-consent",
             "sec-coreom",
             "sec-dsm5",
             "sec-waip",
@@ -6013,6 +6108,7 @@
           label: "Evaluación de Seguimiento 6m",
           badge: "Seguimiento 6 meses · TP-6",
           secciones: [
+            "sec-consent",
             "sec-coreom",
             "sec-dsm5",
             "sec-waip",
@@ -6022,6 +6118,7 @@
           label: "Evaluación de Seguimiento 9m",
           badge: "Seguimiento 9 meses · TP-9",
           secciones: [
+            "sec-consent",
             "sec-coreom",
             "sec-dsm5",
             "sec-waip",
@@ -6031,6 +6128,7 @@
           label: "Evaluación de Seguimiento 12m",
           badge: "Seguimiento 12 meses · TP-12",
           secciones: [
+            "sec-consent",
             "sec-coreom",
             "sec-dsm5",
             "sec-waip",
@@ -6040,6 +6138,7 @@
           label: "Evaluación de Cierre",
           badge: "Cierre · TP-99",
           secciones: [
+            "sec-consent",
             "sec-coreom",
             "sec-dsm5",
             "sec-lpfs",
@@ -6083,6 +6182,7 @@
       };
       const pillsWrap = document.getElementById("instrumentsList");
       momento.secciones.forEach((s) => {
+        if (!pillNames[s]) return;
         const p = document.createElement("span");
         p.className = "instrument-pill";
         p.textContent = pillNames[s];
@@ -6136,6 +6236,14 @@
       }
 
       function submitForm() {
+        // Validar consentimiento obligatorio
+        if (!document.getElementById('consentOkChk').checked) {
+          document.getElementById('consentError').style.display = 'block';
+          document.getElementById('sec-consent').scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+        document.getElementById('consentError').style.display = 'none';
+
         // Validación
         const requiredFields = momento.secciones.flatMap(
           (s) => CAMPOS_REQUERIDOS[s] || [],
@@ -6204,11 +6312,15 @@
 
         // Construir payload
         const payload = {
+          token: 'ps-2026-medicion',
           timestamp: new Date().toISOString(),
           ID_Pac,
           TP,
           MES,
           momento_label: momento.label,
+          consent_ok: document.getElementById('consentOkChk').checked,
+          consent_investigacion: document.getElementById('consentInvChk').checked,
+          ts_consent: new Date().toISOString(),
         };
 
         // Ítems individuales
