@@ -6089,9 +6089,9 @@
           ],
         },
         1: {
-          label: "Seguimiento Mensual",
-          badge: "Seguimiento mensual · TP-1",
-          secciones: ["sec-consent", "sec-waip"],
+          label: "Evaluación de Seguimiento",
+          badge: "Seguimiento mensual",
+          secciones: ["sec-consent", "sec-coreom", "sec-dsm5", "sec-waip"],
         },
         3: {
           label: "Evaluación de Seguimiento 3m",
@@ -6170,6 +6170,12 @@
       // Inicializar página
       document.getElementById("momentBadge").textContent = momento.badge;
       document.getElementById("introTitle").textContent = momento.label;
+
+      // Para seguimientos mensuales (TP=1), mostrar el número de mes en el badge
+      if (TP === 1 && MES) {
+        document.getElementById("momentBadge").textContent = `Seguimiento · Mes ${MES}`;
+        document.getElementById("introTitle").textContent = `Evaluación de Seguimiento — Mes ${MES}`;
+      }
 
       // Mostrar pills de instrumentos
       const pillNames = {
@@ -6316,7 +6322,7 @@
           ID_Pac,
           TP,
           MES,
-          momento_label: momento.label,
+          momento_label: (TP === 1 && MES) ? `Seguimiento · Mes ${MES}` : momento.label,
           consent_ok: document.getElementById('consentOkChk').checked,
           consent_investigacion: document.getElementById('consentInvChk').checked,
           ts_consent: new Date().toISOString(),
