@@ -6088,11 +6088,6 @@
             "sec-pid5",
           ],
         },
-        1: {
-          label: "Evaluación de Seguimiento",
-          badge: "Seguimiento mensual",
-          secciones: ["sec-consent", "sec-coreom", "sec-dsm5", "sec-waip"],
-        },
         3: {
           label: "Evaluación de Seguimiento 3m",
           badge: "Seguimiento 3 meses · TP-3",
@@ -6165,17 +6160,27 @@
         : null) || "SIN_ID";
       const TP = parseInt(params.get("TP") ?? "0");
       const MES = params.get("MES") || "";
-      const momento = MOMENTOS[TP] || MOMENTOS[0];
+
+      // Momento: hitos definidos en MOMENTOS; cualquier otro TP entre 1 y 98
+      // es un seguimiento mensual libre donde TP = mes real (TP=2 → mes 2).
+      // MES queda solo como compatibilidad para links antiguos TP=1&MES=N.
+      let momento;
+      if (MOMENTOS[TP]) {
+        momento = MOMENTOS[TP];
+      } else if (TP >= 1 && TP <= 98) {
+        const mesReal = (TP === 1 && MES) ? MES : TP;
+        momento = {
+          label: `Evaluación de Seguimiento — Mes ${mesReal}`,
+          badge: `Seguimiento · Mes ${mesReal}`,
+          secciones: ["sec-consent", "sec-coreom", "sec-dsm5", "sec-waip"],
+        };
+      } else {
+        momento = MOMENTOS[0];
+      }
 
       // Inicializar página
       document.getElementById("momentBadge").textContent = momento.badge;
       document.getElementById("introTitle").textContent = momento.label;
-
-      // Para seguimientos mensuales (TP=1), mostrar el número de mes en el badge
-      if (TP === 1 && MES) {
-        document.getElementById("momentBadge").textContent = `Seguimiento · Mes ${MES}`;
-        document.getElementById("introTitle").textContent = `Evaluación de Seguimiento — Mes ${MES}`;
-      }
 
       // Mostrar pills de instrumentos
       const pillNames = {
@@ -6322,7 +6327,7 @@
           ID_Pac,
           TP,
           MES,
-          momento_label: (TP === 1 && MES) ? `Seguimiento · Mes ${MES}` : momento.label,
+          momento_label: momento.label,
           consent_ok: document.getElementById('consentOkChk').checked,
           consent_investigacion: document.getElementById('consentInvChk').checked,
           ts_consent: new Date().toISOString(),
