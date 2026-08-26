@@ -6308,9 +6308,32 @@
           arr.every((v) => v !== null) ? arr.reduce((a, b) => a + b, 0) : "";
 
         // WAI subescalas (Tareas, Metas, Vínculo)
-        const wai_T = ["wai_1", "wai_2", "wai_5", "wai_8"].map(getVal);
-        const wai_G = ["wai_4", "wai_6", "wai_7", "wai_11"].map(getVal);
-        const wai_B = ["wai_3", "wai_9", "wai_10", "wai_12"].map(getVal);
+        //
+        // CORREGIDO 2026-08-25. El mapeo anterior era:
+        //   T = 1,2,5,8 · G = 4,6,7,11 · B = 3,9,10,12
+        // y dejaba 5 de los 12 ítems en la subescala equivocada: el 5
+        // ("confiamos el uno en el otro") contaba como Tarea, el 7 ("me siento
+        // a gusto") como Meta, etc. El TOTAL nunca se vio afectado —suma los
+        // 12 igual— pero las tres subescalas no medían lo que decían.
+        //
+        // El mapeo de abajo se validó contra el instrumento original en
+        // español (Inventario de Alianza de Trabajo, versión breve), cuyos
+        // ítems están en OTRO ORDEN que los de este formulario. Haciendo la
+        // correspondencia ítem por ítem con el original:
+        //   este form  1  2  3  4  5  6  7  8  9 10 11 12
+        //   original   1  2  3  4  9 10  7  6  8  5 11 12
+        // y las subescalas del original son T=1,2,8,12 · G=4,6,10,11 · B=3,5,7,9.
+        //
+        // Nota: los ítems 4 y 6 de ESTE formulario corresponden a los ítems 4 y
+        // 10 del original, que allá están redactados en negativo y por eso se
+        // invierten. Acá fueron reescritos en positivo, así que NO se invierten.
+        // Eso es correcto: no es el "desfase" que decía el CLAUDE.md.
+        //
+        // Coincide con el mapeo del sistema de adolescentes.
+        // Ver PLAN_CORRECCIONES_TEENS.md §4.4.
+        const wai_T = ["wai_1", "wai_2", "wai_9", "wai_12"].map(getVal);
+        const wai_G = ["wai_4", "wai_6", "wai_8", "wai_11"].map(getVal);
+        const wai_B = ["wai_3", "wai_5", "wai_7", "wai_10"].map(getVal);
 
         // LPFS subescalas
         const lpfs_ID = ["lpfs_1", "lpfs_2", "lpfs_3"].map(getVal);
